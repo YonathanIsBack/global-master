@@ -1,0 +1,38 @@
+import 'dotenv/config';
+
+const Constant = {
+  CREATED: 'CREATED',
+  UPDATED: 'UPDATED',
+  DELETED: 'DELETED',
+  NOT_FOUND: 'NOT FOUND',
+  RESTORED: 'RESTORED',
+  LOGIN: 'LOGIN',
+  MASTER: 'MASTER',
+  INVENTORY: 'INVENTORY',
+  SETTING: 'SETTING',
+  SYSTEM: 'SYSTEM',
+  ACCOUNTING: 'ACCOUNTING',
+  REGISTERED: 'REGISTERED',
+  EMPTY_STRING: '',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  Algorthim: 'RSA-SHA256',
+  hex: 'hex',
+  JwtAlgorithm: 'HS256',
+  JwtExpiry: '1h',
+  WEBSOCKET: 'WEBOSCKET',
+  SERVER_SENT_EVENT: 'SERVER SENT EVENT',
+  TRIGGERED_NOTIFICATION: 'TRIGGER NOTIFICATION',
+  SEND_CHAT: 'SEND CHAT',
+  API: 'API',
+  LOG_MASTER: 'LOG MASTER',
+  TRANSACTION_COUNT: 'NO TRANSACTION COUNT',
+  SEQUELIZE_ERROR: 'SEQUELIZE ERROR',
+  PostmanFilename: 'postman-collection.json',
+  PostmanEnvironmentFilename: 'environment-postman-collection.json',
+  STOCK_IN: '1',
+  STOCK_OUT: '0',
+  DATABASE_TIMEZONE: process.env.TIMEZONE,
+};
+
+export default Constant;
