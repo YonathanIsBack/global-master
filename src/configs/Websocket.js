@@ -33,8 +33,6 @@ class Websocket {
         updatedActiveUser.push({ username, timestamp: new Date() });
         Websocket.activeUsers = updatedActiveUser;
 
-        // this.filterOfflineUser();
-
         this.#io.emit('ping', { active_users: Websocket.activeUsers })
       });
 
