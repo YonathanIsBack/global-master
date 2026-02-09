@@ -9,7 +9,7 @@ const Endpoint = {
   SALES: '/sales',
   LOCAL: '/local',
   EXPORT: '/export',
-  LOGIN: '/auth',
+  LOGIN: '/Auth',
   ADD_PROCESS: '/add_process',
   EDIT_PROCESS: '/edit_process',
   CHANGE_STATUS: '/change_status',

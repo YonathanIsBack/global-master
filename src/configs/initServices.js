@@ -261,6 +261,7 @@ import { StockCombo, StockComboReverse } from '../models/tr/stock/StockCombo.js'
 import { StockOpname } from '../models/tr/stock/StockOpname.js';
 import TrSafetyStock from '../models/tr/stock/TrSafetyStock.js';
 import BankService from '../services/BankService.js';
+import CurrencyService from '../services/CurrencyService.js';
 import ImportDataService from '../services/ImportDataService.js';
 import PusherService from '../services/PusherService.js';
 import { SalesPriceDtService, SalesPriceService } from '../services/SalesPriceService.js';
@@ -298,7 +299,7 @@ const initServices = () => {
     companyBankService: new StandardService(CompanyBank),
     countryService: new StandardService(Country),
     countryCodeService: new StandardService(CountryCode),
-    currencyService: new StandardService(Currency),
+    currencyService: new CurrencyService(Currency),
     customerService: new StandardService(Customer),
     customerBillingService: new StandardService(CustomerBilling),
     customeCartService: new StandardService(CustomerCart),

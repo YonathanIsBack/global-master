@@ -508,7 +508,7 @@ const route = (app) => {
   const upload = multer();
   const { controllers } = app.locals;
   const excludedRoutes = [
-    '/auth',
+    '/Auth',
     '/api-docs',
     '/postman-docs',
     '/subscribe-notification',
