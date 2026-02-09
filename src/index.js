@@ -7,7 +7,7 @@ import route from './routes/indexRoute.js';
 
 const app = express();
 
-const server = createServer(options, app);
+const server = createServer(app);
 Websocket.init(server);
 
 app.use(express.json({ limit: '200mb' }));
