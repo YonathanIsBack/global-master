@@ -11,6 +11,10 @@ const transactionRoute = (controllers) => {
   router.post(Endpoint.SAVE, validate(apiValidator(transactionController.service.model)), transactionController.create);
   router.post(Endpoint.RESTORE, transactionController.restore);
 
+  router.post("/count_all", transactionController.count);
+  router.post("/get_all_data_trans_ajax", transactionController.getAll);
+  router.post("/get_all_data_api", transactionController.getAllDataAPI);
+
   return router;
 }
 

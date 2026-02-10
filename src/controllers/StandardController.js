@@ -73,10 +73,13 @@ class StandardController {
 
   async getAllDataAPI(request, response) {
     const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
     const whereClause = {
-      currencyId: Object.keys(requestBody.where_in)
+      [primaryKey]: requestBody.where_in
     }
+    
     const data = await this.service.getAll({ whereClause });
+
     const payload = {
       result: data.map(currency => ObjectUtil.toSnakeCase(currency)),
       total_rows: data.length
