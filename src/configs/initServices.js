@@ -263,6 +263,7 @@ import TrSafetyStock from '../models/tr/stock/TrSafetyStock.js';
 import BankService from '../services/BankService.js';
 import CurrencyService from '../services/CurrencyService.js';
 import ImportDataService from '../services/ImportDataService.js';
+import ProvinceService from '../services/ProvinceService.js';
 import PusherService from '../services/PusherService.js';
 import { SalesPriceDtService, SalesPriceService } from '../services/SalesPriceService.js';
 import StandardService from '../services/StandardService.js';
@@ -347,7 +348,7 @@ const initServices = () => {
     periodeService: new StandardService(Periode),
     preferenceService: new StandardService(Preference),
     principalService: new StandardService(Principal),
-    provinceService: new StandardService(Province),
+    provinceService: new ProvinceService(Province),
     districtService: new StandardService(District),
     subdistrictService: new StandardService(SubDistrict),
     salesmanService: new StandardService(Salesman),

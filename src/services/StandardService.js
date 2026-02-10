@@ -353,11 +353,11 @@ class StandardService {
         raw: true,
         limit: Number(limit),
         offset: Number(offset),
-        order: this.#buildOrderClause(orderIndex, orderDirection)
+        order: this.buildOrderClause(orderIndex, orderDirection)
       });
   }
 
-  #buildOrderClause(orderIndex = 0, orderDirection) {
+  buildOrderClause(orderIndex = 0, orderDirection) {
     if (orderIndex == 0) return [];
     4
     const orderClause = [this.columnOrder[Number(orderIndex)], orderDirection];
