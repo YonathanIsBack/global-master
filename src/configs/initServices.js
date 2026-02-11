@@ -262,13 +262,18 @@ import { StockOpname } from '../models/tr/stock/StockOpname.js';
 import TrSafetyStock from '../models/tr/stock/TrSafetyStock.js';
 import BankService from '../services/BankService.js';
 import CurrencyService from '../services/CurrencyService.js';
+import DepartmentService from '../services/DepartmentService.js';
 import ImportDataService from '../services/ImportDataService.js';
+import LocationService from '../services/LocationService.js';
+import PaymentTermService from '../services/PaymentTermService.js';
 import ProvinceService from '../services/ProvinceService.js';
 import PusherService from '../services/PusherService.js';
 import { SalesPriceDtService, SalesPriceService } from '../services/SalesPriceService.js';
 import StandardService from '../services/StandardService.js';
 import StandardTransactionService from '../services/StandardTransactionService.js';
 import StratumService from '../services/StratumService.js';
+import TaxService from '../services/TaxService.js';
+import TransactionService from '../services/TransactionService.js';
 import { ExportSalesPriceDtService, ExportSalesPriceService } from '../services/tr/export/ExportSalesPriceService.js';
 import InventoryAdjustmentService from '../services/tr/inventory/InventoryAdjustmentService.js';
 import StockOpnameService from '../services/tr/stock/StockOpnameService.js';
@@ -315,7 +320,7 @@ const initServices = () => {
     customerSegmentationService: new StandardService(CustomerSegmentation),
     customerTaxService: new StandardService(CustomerTax),
     customerTypeService: new StandardService(CustomerType),
-    departmentService: new StandardService(Department),
+    departmentService: new DepartmentService(Department),
     endOfMonthLogService: new StandardService(EndOfMonthLog),
     endOfMonthService: new StandardService(EndOfMonth),
     endOfMonthSettingService: new StandardService(EndOfMonthSetting),
@@ -338,12 +343,12 @@ const initServices = () => {
     kasbonPotonganService: new StandardService(KasbonPotongan),
     labelService: new StandardService(Label),
     labelSettinganPrintService: new StandardService(LabelSettinganPrint),
-    locationService: new StandardService(Location),
+    locationService: new LocationService(Location),
     notificationService: new StandardService(Notification),
     notificationDtService: new StandardService(NotificationDetail),
     pageMenuService: new StandardService(PageMenu),
     pageMenuTerbukaService: new StandardService(PageMenuTerbuka),
-    paymentService: new StandardService(PaymentTerm),
+    paymentService: new PaymentTermService(PaymentTerm),
     periodeLogService: new StandardService(PeriodeLog),
     periodeService: new StandardService(Periode),
     preferenceService: new StandardService(Preference),
@@ -372,9 +377,9 @@ const initServices = () => {
     supplierSegmentationService: new StandardService(SupplierSegmentation),
     supplierTaxService: new StandardService(SupplierTax),
     supplierTypeService: new StandardService(SupplierType),
-    taxService: new StandardService(Tax),
+    taxService: new TaxService(Tax),
     taxFormService: new StandardService(TaxForm),
-    transactionService: new StandardService(Transaction),
+    transactionService: new TransactionService(Transaction),
     transCodeService: new StandardService(TransCode),
     transCodeGroupService: new StandardService(TransCodeGroup),
     transactionCodeService: new StandardService(TransactionCode),
