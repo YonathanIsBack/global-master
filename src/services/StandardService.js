@@ -341,8 +341,10 @@ class StandardService {
     return primaryKeys;
   }
 
-  async count() {
-    return await this.model.count();
+  async count({ whereClause } = {}) {
+    return await this.model.count({
+      where: whereClause ?? null,
+    });
   }
 
   async getAll(params) {

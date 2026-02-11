@@ -60,7 +60,7 @@ class StandardController {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
     const data = await this.service.getAll({ whereClause: searchClause, limit: requestBody.length, offset: requestBody.start, orderIndex: requestBody.order[0].column, orderDirection: requestBody.order[0].dir });
-    const totalRows = await this.service.count();
+    const totalRows = await this.service.count({ whereClause: searchClause });
 
     const payload = {
       result: data.map(currency => ObjectUtil.toSnakeCase(currency)),
