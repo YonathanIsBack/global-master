@@ -261,19 +261,23 @@ import { StockCombo, StockComboReverse } from '../models/tr/stock/StockCombo.js'
 import { StockOpname } from '../models/tr/stock/StockOpname.js';
 import TrSafetyStock from '../models/tr/stock/TrSafetyStock.js';
 import BankService from '../services/BankService.js';
+import CountryService from '../services/CountryService.js';
 import CurrencyService from '../services/CurrencyService.js';
 import DepartmentService from '../services/DepartmentService.js';
+import FakturPajakService from '../services/FakturPajakService.js';
 import ImportDataService from '../services/ImportDataService.js';
 import LocationService from '../services/LocationService.js';
 import PaymentTermService from '../services/PaymentTermService.js';
 import ProvinceService from '../services/ProvinceService.js';
 import PusherService from '../services/PusherService.js';
 import { SalesPriceDtService, SalesPriceService } from '../services/SalesPriceService.js';
+import ShippingService from '../services/ShippingService.js';
 import StandardService from '../services/StandardService.js';
 import StandardTransactionService from '../services/StandardTransactionService.js';
 import StratumService from '../services/StratumService.js';
 import TaxService from '../services/TaxService.js';
 import TransactionService from '../services/TransactionService.js';
+import WarehouseService from '../services/WarehouseService.js';
 import { ExportSalesPriceDtService, ExportSalesPriceService } from '../services/tr/export/ExportSalesPriceService.js';
 import InventoryAdjustmentService from '../services/tr/inventory/InventoryAdjustmentService.js';
 import StockOpnameService from '../services/tr/stock/StockOpnameService.js';
@@ -303,7 +307,7 @@ const initServices = () => {
     coaTypeService: new StandardService(CoaType),
     companyService: new StandardService(Company),
     companyBankService: new StandardService(CompanyBank),
-    countryService: new StandardService(Country),
+    countryService: new CountryService(Country),
     countryCodeService: new StandardService(CountryCode),
     currencyService: new CurrencyService(Currency),
     customerService: new StandardService(Customer),
@@ -324,7 +328,7 @@ const initServices = () => {
     endOfMonthLogService: new StandardService(EndOfMonthLog),
     endOfMonthService: new StandardService(EndOfMonth),
     endOfMonthSettingService: new StandardService(EndOfMonthSetting),
-    fakturPajakService: new StandardService(FakturPajak),
+    fakturPajakService: new FakturPajakService(FakturPajak),
     fixedAssetService: new StandardService(FixedAsset),
     fixedAssetCategoryService: new StandardService(FixedAssetCategory),
     fixedAssetGroupService: new StandardService(FixedAssetGroup),
@@ -361,7 +365,7 @@ const initServices = () => {
     salesmanTargetService: new StandardService(SalesmanTarget),
     salesPriceService: new SalesPriceService(SalesPrice),
     salesPriceDetailService: new SalesPriceDtService(SalesPriceDt),
-    shippingService: new StandardService(Shipping),
+    shippingService: new ShippingService(Shipping),
     stAutoApproveService: new StandardService(StAutoApprove),
     stCurrencyRate: new StandardService(StCurrencyRate),
     stCurrencyRateDetailService: new StandardService(StCurrencyRateDetail),
@@ -404,7 +408,7 @@ const initServices = () => {
     userSupplierService: new StandardService(UserSupplier),
     userTurunanService: new StandardService(UserTurunan),
     vintageService: new StandardService(Vintage),
-    warehouseService: new StandardService(Warehouse),
+    warehouseService: new WarehouseService(Warehouse),
     warehouseLevelService: new StandardService(WarehouseLevel),
     exportSalesAdvancePaymentService: new StandardTransactionService(ExportSalesAdvancePayment),
     exportSalesAdvancePaymentRejectService: new StandardService(ExportSalesAdvancePaymentReject),

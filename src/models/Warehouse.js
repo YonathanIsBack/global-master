@@ -69,4 +69,6 @@ WarehouseCategoryCoa.init(
   StandardModel.buildStandardModelInformation('ms_warehouse_category_coa', 'WarehouseCategoryCoa', sequelize)
 );
 
+Warehouse.hasOne(WarehouseLevel, { foreignKey: "warehouse_level_id" });
+
 export { Warehouse, WarehouseLevel, WarehouseCategoryCoa };
