@@ -1,4 +1,4 @@
-import { Transaction } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import LogEvent from '../constants/LogEvent.js';
 import DataNotFoundException from '../exception/DataNotFoundException.js';
@@ -19,6 +19,7 @@ const defaultOptions = {
 class StandardService {
   model;
   columnOrder = [];
+  columnSearch = [];
 
   constructor(model) {
     this.model = model;
@@ -359,10 +360,20 @@ class StandardService {
 
   buildOrderClause(orderIndex = 0, orderDirection) {
     if (orderIndex == 0) return [];
-    4
+
     const orderClause = [this.columnOrder[Number(orderIndex)], orderDirection];
 
     return [orderClause];
+  }
+
+  buildSearchClause(columns = [], value = "") {
+    if (columns.length == 0) {
+      return {};
+    }
+
+    const conditions = columns.map(column => [column, { [Op.like]: `%${value}%` }]);
+
+    return { [Op.or]: Object.fromEntries(new Map(conditions)) };
   }
 }
 

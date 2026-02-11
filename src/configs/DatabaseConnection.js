@@ -40,7 +40,7 @@ class DatabaseConnection {
     const sequelize = new Sequelize(databaseName, databaseUsername, databasePassword, {
       host: databaseUrl,
       dialect: dialect,
-      logging: false,
+      logging: true,
       dialectOptions: {
         dateStrings: true,
         typeCast: function (field, next) { 

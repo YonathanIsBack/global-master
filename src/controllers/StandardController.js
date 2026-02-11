@@ -58,7 +58,8 @@ class StandardController {
 
   async getAll(request, response) {
     const requestBody = request.body;
-    const data = await this.service.getAll({ limit: requestBody.length, offset: requestBody.start, orderIndex: requestBody.order[0].column, orderDirection: requestBody.order[0].dir });
+    const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
+    const data = await this.service.getAll({ whereClause: searchClause, limit: requestBody.length, offset: requestBody.start, orderIndex: requestBody.order[0].column, orderDirection: requestBody.order[0].dir });
     const totalRows = await this.service.count();
 
     const payload = {
@@ -77,7 +78,7 @@ class StandardController {
     const whereClause = {
       [primaryKey]: requestBody.where_in
     }
-    
+
     const data = await this.service.getAll({ whereClause });
 
     const payload = {
