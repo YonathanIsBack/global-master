@@ -2,7 +2,7 @@ import lodash from 'lodash';
 import ObjectUtil from './ObjectUtil.js';
 
 const buildResponse = (statusCode, message, payload, res) => {
-  const response = { status: statusCode, message: message, valid: true };
+  const response = { status: statusCode, api_message: message, valid: true };
 
   if (payload === undefined || payload === null) {
     return response;
