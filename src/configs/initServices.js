@@ -5,7 +5,10 @@ import { BackDated, BackDatedLogs, BackDatedUser } from '../models/Backdated.js'
 import Bank from '../models/Bank.js';
 import Brand from '../models/Brand.js';
 import { BuyingPriceList, BuyingPriceListDetail } from '../models/BuyingPriceList.js';
-import { BuyingPriceListImport, BuyingPriceListImportDetail } from '../models/BuyingPriceListImport.js';
+import {
+  BuyingPriceListImport,
+  BuyingPriceListImportDetail
+} from '../models/BuyingPriceListImport.js';
 import City from '../models/City.js';
 import { Coa, CoaBank, CoaGroup, CoaSubGroup, CoaType } from '../models/Coa.js';
 import { Company, CompanyBank } from '../models/Company.js';
@@ -33,7 +36,12 @@ import EndOfMonth from '../models/EndOfMonth.js';
 import EndOfMonthLog from '../models/EndOfMonthLog.js';
 import EndOfMonthSetting from '../models/EndOfMonthSetting.js';
 import FakturPajak from '../models/FakturPajak.js';
-import { FixedAsset, FixedAssetCategory, FixedAssetGroup, FixedDepreciation } from '../models/FixedAsset.js';
+import {
+  FixedAsset,
+  FixedAssetCategory,
+  FixedAssetGroup,
+  FixedDepreciation
+} from '../models/FixedAsset.js';
 import {
   Item,
   ItemBuying,
@@ -82,7 +90,20 @@ import {
 import { Tax, TaxForm } from '../models/Tax.js';
 import { NoTransaction, TransactionCode, TransCode, TransCodeGroup } from '../models/TransCode.js';
 import Transaction from '../models/Transaction.js';
-import { User, UserAksesCompany, UserCustomer, UserGroup, UserGroupAccess, UserGroupCustomer, UserItem, UserOtp, UserSalesman, UserSupplier, UserTableViewColumn, UserTurunan } from '../models/User.js';
+import {
+  User,
+  UserAksesCompany,
+  UserCustomer,
+  UserGroup,
+  UserGroupAccess,
+  UserGroupCustomer,
+  UserItem,
+  UserOtp,
+  UserSalesman,
+  UserSupplier,
+  UserTableViewColumn,
+  UserTurunan
+} from '../models/User.js';
 import Vintage from '../models/Vintage.js';
 import { Warehouse, WarehouseLevel } from '../models/Warehouse.js';
 import { CashBank } from '../models/gl/CashBank.js';
@@ -157,7 +178,17 @@ import { IxUserSalesman } from '../models/ix/IxUserSalesman.js';
 import { IxUserSupplier } from '../models/ix/IxUserSupplier.js';
 import { IxUserTurunan } from '../models/ix/IxUserTurunan.js';
 import { IxWarehouse } from '../models/ix/IxWarehouse.js';
-import { CoretaxCategory, CoretaxCountry, CoretaxFacility, CoretaxInfo, CoretaxJenisPembeli, CoretaxTax, CoretaxTransactionCode, CoretaxType, CoretaxUom } from '../models/ms/Coretax.js';
+import {
+  CoretaxCategory,
+  CoretaxCountry,
+  CoretaxFacility,
+  CoretaxInfo,
+  CoretaxJenisPembeli,
+  CoretaxTax,
+  CoretaxTransactionCode,
+  CoretaxType,
+  CoretaxUom
+} from '../models/ms/Coretax.js';
 import { PaymentMemo } from '../models/rc/PaymentMemo.js';
 import Ap from '../models/sm/Ap.js';
 import ApTr from '../models/sm/ApTr.js';
@@ -253,7 +284,13 @@ import {
 } from '../models/tr/sales/SalesOrder.js';
 import { SalesPayment } from '../models/tr/sales/SalesPayment.js';
 import { SalesPrice, SalesPriceDt } from '../models/tr/sales/SalesPrice.js';
-import { SalesQuote, SalesQuoteDt, SalesQuoteItemDt, SalesQuoteReject, SalesQuoteRequest } from '../models/tr/sales/SalesQuote.js';
+import {
+  SalesQuote,
+  SalesQuoteDt,
+  SalesQuoteItemDt,
+  SalesQuoteReject,
+  SalesQuoteRequest
+} from '../models/tr/sales/SalesQuote.js';
 import { SalesReturn } from '../models/tr/sales/SalesReturn.js';
 import { TrSalesTarget, TrSalesTargetDt } from '../models/tr/sales/TrSalesTarget.js';
 import { TrSalesmanTarget, TrSalesmanTargetDt } from '../models/tr/salesman/TrSalesmanTarget.js';
@@ -261,6 +298,7 @@ import { StockCombo, StockComboReverse } from '../models/tr/stock/StockCombo.js'
 import { StockOpname } from '../models/tr/stock/StockOpname.js';
 import TrSafetyStock from '../models/tr/stock/TrSafetyStock.js';
 import BankService from '../services/BankService.js';
+import BrandService from '../services/BrandService.js';
 import CountryService from '../services/CountryService.js';
 import CurrencyService from '../services/CurrencyService.js';
 import DepartmentService from '../services/DepartmentService.js';
@@ -278,7 +316,16 @@ import StratumService from '../services/StratumService.js';
 import TaxService from '../services/TaxService.js';
 import TransactionService from '../services/TransactionService.js';
 import WarehouseService from '../services/WarehouseService.js';
-import { ExportSalesPriceDtService, ExportSalesPriceService } from '../services/tr/export/ExportSalesPriceService.js';
+import ItemCategoryService from '../services/ms/ItemCategoryService.js';
+import ItemService from '../services/ms/ItemService.js';
+import ItemSubCategoryService from '../services/ms/ItemSubCategoryService.js';
+import ItemTypeService from '../services/ms/ItemTypeService.js';
+import ItemUomService from '../services/ms/ItemUomService.js';
+import LabelService from '../services/ms/LabelService.js';
+import {
+  ExportSalesPriceDtService,
+  ExportSalesPriceService
+} from '../services/tr/export/ExportSalesPriceService.js';
 import InventoryAdjustmentService from '../services/tr/inventory/InventoryAdjustmentService.js';
 import StockOpnameService from '../services/tr/stock/StockOpnameService.js';
 
@@ -294,7 +341,7 @@ const initServices = () => {
     backdatedLogService: new StandardService(BackDatedLogs),
     backdatedUserService: new StandardService(BackDatedUser),
     bankService: new BankService(Bank),
-    brandService: new StandardService(Brand),
+    brandService: new BrandService(Brand),
     buyingPriceListImportService: new StandardService(BuyingPriceListImport),
     buyingPriceListImportDetailService: new StandardService(BuyingPriceListImportDetail),
     buyingPriceListService: new StandardService(BuyingPriceList),
@@ -333,19 +380,19 @@ const initServices = () => {
     fixedAssetCategoryService: new StandardService(FixedAssetCategory),
     fixedAssetGroupService: new StandardService(FixedAssetGroup),
     fixedDepreciationService: new StandardService(FixedDepreciation),
-    itemService: new StandardService(Item),
+    itemService: new ItemService(Item),
     itemBuyingService: new StandardService(ItemBuying),
-    itemCategoryService: new StandardService(ItemCategory),
+    itemCategoryService: new ItemCategoryService(ItemCategory),
     itemComboService: new StandardService(ItemCombo),
     itemImgService: new StandardService(ItemImg),
     itemLabelService: new StandardService(ItemLabel),
     itemLabelDetailService: new StandardService(ItemLabelDetail),
     itemPriceService: new StandardService(ItemPrice),
-    itemSubcategoryService: new StandardService(ItemSubcategory),
-    itemTypeService: new StandardService(ItemType),
-    itemUomService: new StandardService(ItemUom),
+    itemSubcategoryService: new ItemSubCategoryService(ItemSubcategory),
+    itemTypeService: new ItemTypeService(ItemType),
+    itemUomService: new ItemUomService(ItemUom),
     kasbonPotonganService: new StandardService(KasbonPotongan),
-    labelService: new StandardService(Label),
+    labelService: new LabelService(Label),
     labelSettinganPrintService: new StandardService(LabelSettinganPrint),
     locationService: new LocationService(Location),
     notificationService: new StandardService(Notification),
@@ -532,7 +579,9 @@ const initServices = () => {
     offshorePurchaseOrderService: new StandardTransactionService(OffshorePurchaseOrder),
     offshorePurchaseReceiveService: new StandardTransactionService(OffshorePurchaseReceive),
     offshorePurchaseInvoiceService: new StandardTransactionService(OffshorePurchaseInvoice),
-    offshorePurchaseAdvancedPaymentService: new StandardTransactionService(OffshorePurchaseAdvancePayment),
+    offshorePurchaseAdvancedPaymentService: new StandardTransactionService(
+      OffshorePurchaseAdvancePayment
+    ),
     offshorePurchasePaymentService: new StandardTransactionService(OffshorePurchasePayment),
     offshorePurchaseCreditNoteService: new StandardTransactionService(OffshorePurchaseCreditNote),
     offshoreSalesInvoiceService: new StandardTransactionService(OffshoreSalesInvoice),

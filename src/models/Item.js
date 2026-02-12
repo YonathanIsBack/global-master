@@ -1,19 +1,20 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import Brand from './Brand.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
-class Item extends StandardModel { }
-class ItemBuying extends StandardModel { }
-class ItemCategory extends StandardModel { }
-class ItemCombo extends StandardModel { }
-class ItemImg extends StandardModel { }
-class ItemLabel extends StandardModel { }
-class ItemLabelDetail extends StandardModel { }
-class ItemPrice extends StandardModel { }
-class ItemSubcategory extends StandardModel { }
-class ItemType extends StandardModel { }
-class ItemUom extends StandardModel { }
+class Item extends StandardModel {}
+class ItemBuying extends StandardModel {}
+class ItemCategory extends StandardModel {}
+class ItemCombo extends StandardModel {}
+class ItemImg extends StandardModel {}
+class ItemLabel extends StandardModel {}
+class ItemLabelDetail extends StandardModel {}
+class ItemPrice extends StandardModel {}
+class ItemSubcategory extends StandardModel {}
+class ItemType extends StandardModel {}
+class ItemUom extends StandardModel {}
 
 Item.init(
   StandardModel.buildPropertyWithOptions(
@@ -83,7 +84,15 @@ ItemCategory.init(
       inventoryCoaId: DataTypes.BIGINT,
       numberNow: DataTypes.INTEGER
     },
-    { withDbId: true, withIsactive: true, withIsdel: true, withIsused: true, withCreate: true, withModify: true , withIsused:true }
+    {
+      withDbId: true,
+      withIsactive: true,
+      withIsdel: true,
+      withIsused: true,
+      withCreate: true,
+      withModify: true,
+      withIsused: true
+    }
   ),
   StandardModel.buildStandardModelInformation('ms_item_category', 'ItemCategory', sequelize)
 );
@@ -164,15 +173,33 @@ ItemPrice.init(
 ItemSubcategory.init(
   StandardModel.buildPropertyWithOptions(
     {
-      ...StandardModel.buildPrimaryKey('itemSubcategoryId', DataTypes.BIGINT),
+      ...StandardModel.buildPrimaryKey('itemCategoryId', DataTypes.BIGINT),
+      coretaxCategoryId: DataTypes.BIGINT,
       companyParentId: DataTypes.INTEGER,
-      itemSubcategoryParentId: DataTypes.INTEGER,
-      itemSubcategoryCode: DataTypes.STRING(5),
-      itemSubcategoryName: DataTypes.STRING(25)
+      itemCategoryParentId: DataTypes.INTEGER,
+      itemCategoryCode: DataTypes.STRING(25),
+      itemCategoryName: DataTypes.STRING(50),
+      exciseRate: DataTypes.DOUBLE,
+      importTaxOption: DataTypes.TINYINT,
+      importTaxValue: DataTypes.DOUBLE,
+      cogsCoaId: DataTypes.BIGINT,
+      cogs2CoaId: DataTypes.BIGINT,
+      sellCoaId: DataTypes.BIGINT,
+      sell2CoaId: DataTypes.BIGINT,
+      inventoryCoaId: DataTypes.BIGINT,
+      numberNow: DataTypes.INTEGER
     },
-    { withDbId: true, withIsactive: true, withIsdel: true, withCreate: true, withModify: true }
+    {
+      withDbId: true,
+      withIsactive: true,
+      withIsdel: true,
+      withIsused: true,
+      withCreate: true,
+      withModify: true,
+      withIsused: true
+    }
   ),
-  StandardModel.buildStandardModelInformation('ms_item_subcategory', 'ItemSubcategory', sequelize)
+  StandardModel.buildStandardModelInformation('ms_item_category', 'ItemSubcategory', sequelize)
 );
 
 ItemType.init(
@@ -185,7 +212,14 @@ ItemType.init(
       itemTypeName: DataTypes.STRING(25),
       isstock: DataTypes.TINYINT
     },
-    { withDbId: true, withIsactive: true, withIsdel: true, withIsused: true, withCreate: true, withModify: true }
+    {
+      withDbId: true,
+      withIsactive: true,
+      withIsdel: true,
+      withIsused: true,
+      withCreate: true,
+      withModify: true
+    }
   ),
   StandardModel.buildStandardModelInformation('ms_item_type', 'ItemType', sequelize)
 );
@@ -199,10 +233,32 @@ ItemUom.init(
       itemUomName: DataTypes.STRING(50),
       coretaxUomId: DataTypes.BIGINT
     },
-    { withDbId: true, withIsactive: true, withIsdel: true, withIsused: true, withCreate: true, withModify: true }
+    {
+      withDbId: true,
+      withIsactive: true,
+      withIsdel: true,
+      withIsused: true,
+      withCreate: true,
+      withModify: true
+    }
   ),
   StandardModel.buildStandardModelInformation('ms_item_uom', 'ItemUom', sequelize)
 );
+
+Item.hasOne(ItemCategory, { foreignKey: 'item_category_id' });
+Item.hasOne(ItemCategory, {
+  foreignKey: 'item_category_id',
+  foreignKeyConstraint: 'item_category_sub_id',
+  as: 'ItemCategorySub'
+});
+Item.hasOne(Brand, { foreignKey: 'brand_id' });
+Item.hasOne(ItemType, { foreignKey: 'item_type_id' });
+Item.hasOne(ItemUom, { foreignKey: 'item_uom_id' });
+
+ItemSubcategory.hasOne(ItemCategory, {
+  targetKey: 'item_category_parent_id',
+  foreignKey: 'item_category_id'
+});
 
 export {
   Item,

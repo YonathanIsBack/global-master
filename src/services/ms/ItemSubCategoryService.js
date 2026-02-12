@@ -1,19 +1,24 @@
-import Brand from '../models/Brand.js';
-import { SupplierGroup } from '../models/Supplier.js';
-import SequelizeUtil from '../util/SequelizeUtil.js';
-import StandardService from './StandardService.js';
+import { ItemCategory, ItemSubcategory } from '../../models/Item.js';
+import SequelizeUtil from '../../util/SequelizeUtil.js';
+import StandardService from '../StandardService.js';
 
-class BrandService extends StandardService {
+export default class ItemSubCategoryService extends StandardService {
   columnOrder = [
     '',
-    'brand_name',
-    SequelizeUtil.getSequelizeCol('SupplierGroup.supplier_group_name'),
+    SequelizeUtil.getSequelizeCol('ItemCategory.item_category_name'),
+    'item_category_code',
+    'item_category_name',
     'isactive'
   ];
-  columnSearch = ['cretime', 'brand_name', '$SupplierGroup.supplier_group_name$'];
+  columnSearch = [
+    '$ItemCategory.item_category_name$',
+    'item_category_code',
+    'item_category_name',
+    'isactive'
+  ];
 
   constructor() {
-    super(Brand);
+    super(ItemSubcategory);
   }
 
   async count({ whereClause } = {}) {
@@ -21,7 +26,7 @@ class BrandService extends StandardService {
       where: whereClause ?? null,
       include: [
         {
-          model: SupplierGroup,
+          model: ItemCategory,
           required: false
         }
       ]
@@ -39,7 +44,7 @@ class BrandService extends StandardService {
       order: this.buildOrderClause(orderIndex, orderDirection),
       include: [
         {
-          model: SupplierGroup,
+          model: ItemCategory,
           required: false
         }
       ]
@@ -47,9 +52,7 @@ class BrandService extends StandardService {
 
     return results.map((result) => ({
       ...result,
-      supplierGroupName: result['SupplierGroup.supplierGroupName']
+      itemCategoryParentName: result['ItemCategory.itemCategoryName']
     }));
   }
 }
-
-export default BrandService;

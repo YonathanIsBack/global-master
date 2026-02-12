@@ -61,6 +61,7 @@ import {
   itemLabelRoute,
   itemPriceRoute,
   itemRoute,
+  itemSubcategoryRoute,
   itemTypeRoute,
   itemUomRoute
 } from './itemRoute.js';
@@ -552,7 +553,7 @@ const route = (app) => {
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM, itemRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.BRAND, brandRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM_CATEGORY, itemCategoryRoute(controllers));
-  router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM_SUBCATEGORY, itemCategoryRoute(controllers));
+  router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM_SUBCATEGORY, itemSubcategoryRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM_TYPE, itemTypeRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM_UOM, itemUomRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.LABEL, labelRoute(controllers));
