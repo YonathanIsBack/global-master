@@ -1,11 +1,12 @@
 import { Warehouse, WarehouseLevel } from '../models/Warehouse.js';
+import SequelizeUtil from '../util/SequelizeUtil.js';
 import StandardService from './StandardService.js';
 
 class WarehouseService extends StandardService {
   columnOrder = [
     '',
     'warehouse_code',
-    '$WarehouseLevel.warehouseLevelName$',
+    SequelizeUtil.getSequelizeCol('WarehouseLevel.warehouse_level_name'),
     'warehouse_name',
     'warehouse_initial',
     'warehouse_addr',

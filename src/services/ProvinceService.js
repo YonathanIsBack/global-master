@@ -2,9 +2,10 @@ import { Sequelize } from 'sequelize';
 import { Country } from '../models/Country.js';
 import Province from '../models/Province.js';
 import StandardService from './StandardService.js';
+import SequelizeUtil from '../util/SequelizeUtil.js';
 
 class ProvinceService extends StandardService {
-  columnOrder = ['', 'province_code', 'province_name', Sequelize.col(Country.countryName), 'isactive'];
+  columnOrder = ['', 'province_code', 'province_name', SequelizeUtil.getSequelizeCol('Country.country_name'), 'isactive'];
   columnSearch = ['province_code', 'province_name', '$Country.country_name$'];
 
   constructor() {

@@ -1,3 +1,4 @@
+import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../configs/databaseConfig.js';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import TableNotFoundException from '../exception/TableNotFoundException.js';
@@ -13,6 +14,10 @@ class SequelizeUtil {
     }
 
     throw new TableNotFoundException(tableName);
+  }
+
+  static getSequelizeCol(column) {
+    return Sequelize.col(column);
   }
 }
 
