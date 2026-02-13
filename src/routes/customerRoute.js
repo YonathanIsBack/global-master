@@ -1,6 +1,16 @@
 import RouteUtil from '../util/RouteUtil.js';
 
-const customerRoute = (controllers) => RouteUtil.createStandardRoute(controllers.customerController);
+const customerRoute = (controllers) => {
+  const { customerController } = controllers;
+  const router = RouteUtil.createStandardRoute(customerController);
+
+  router.post('/count_all', customerController.count);
+  router.post('/get_all_data_customer_individu_ajax', customerController.getAll);
+  router.post('/get_all_data_customer_company_ajax', customerController.getAll);
+  router.post('/get_all_data_api', customerController.getAllDataAPI);
+
+  return router;
+};
 const customerBillingRoute = (controllers) => RouteUtil.createStandardRoute(controllers.customerBillingController);
 const customerCartRoute = (controllers) => RouteUtil.createStandardRoute(controllers.customerCartController);
 const customerCodeRoute = (controllers) => RouteUtil.createStandardRoute(controllers.customerCodeController);
@@ -31,4 +41,3 @@ export {
   customerTaxRoute,
   customerTypeRoute
 };
-

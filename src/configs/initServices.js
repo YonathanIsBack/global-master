@@ -5,10 +5,7 @@ import { BackDated, BackDatedLogs, BackDatedUser } from '../models/Backdated.js'
 import Bank from '../models/Bank.js';
 import Brand from '../models/Brand.js';
 import { BuyingPriceList, BuyingPriceListDetail } from '../models/BuyingPriceList.js';
-import {
-  BuyingPriceListImport,
-  BuyingPriceListImportDetail
-} from '../models/BuyingPriceListImport.js';
+import { BuyingPriceListImport, BuyingPriceListImportDetail } from '../models/BuyingPriceListImport.js';
 import City from '../models/City.js';
 import { Coa, CoaBank, CoaGroup, CoaSubGroup, CoaType } from '../models/Coa.js';
 import { Company, CompanyBank } from '../models/Company.js';
@@ -36,12 +33,7 @@ import EndOfMonth from '../models/EndOfMonth.js';
 import EndOfMonthLog from '../models/EndOfMonthLog.js';
 import EndOfMonthSetting from '../models/EndOfMonthSetting.js';
 import FakturPajak from '../models/FakturPajak.js';
-import {
-  FixedAsset,
-  FixedAssetCategory,
-  FixedAssetGroup,
-  FixedDepreciation
-} from '../models/FixedAsset.js';
+import { FixedAsset, FixedAssetCategory, FixedAssetGroup, FixedDepreciation } from '../models/FixedAsset.js';
 import {
   Item,
   ItemBuying,
@@ -313,6 +305,7 @@ import ShippingService from '../services/ShippingService.js';
 import StandardService from '../services/StandardService.js';
 import StandardTransactionService from '../services/StandardTransactionService.js';
 import StratumService from '../services/StratumService.js';
+import SupplierService from '../services/ms/SupplierService.js';
 import TaxService from '../services/TaxService.js';
 import TransactionService from '../services/TransactionService.js';
 import WarehouseService from '../services/WarehouseService.js';
@@ -322,12 +315,14 @@ import ItemSubCategoryService from '../services/ms/ItemSubCategoryService.js';
 import ItemTypeService from '../services/ms/ItemTypeService.js';
 import ItemUomService from '../services/ms/ItemUomService.js';
 import LabelService from '../services/ms/LabelService.js';
-import {
-  ExportSalesPriceDtService,
-  ExportSalesPriceService
-} from '../services/tr/export/ExportSalesPriceService.js';
+import { ExportSalesPriceDtService, ExportSalesPriceService } from '../services/tr/export/ExportSalesPriceService.js';
 import InventoryAdjustmentService from '../services/tr/inventory/InventoryAdjustmentService.js';
 import StockOpnameService from '../services/tr/stock/StockOpnameService.js';
+import SupplierGroupService from '../services/ms/SupplierGroupService.js';
+import SupplierSegmentationService from '../services/ms/SupplierSegmentationService.js';
+import SupplierTypeService from '../services/ms/SupplierTypeService.js';
+import SupplierRegionService from '../services/ms/SupplierRegionService.js';
+import CustomerService from '../services/ms/CustomerService.js';
 
 const initServices = () => {
   return {
@@ -357,7 +352,7 @@ const initServices = () => {
     countryService: new CountryService(Country),
     countryCodeService: new StandardService(CountryCode),
     currencyService: new CurrencyService(Currency),
-    customerService: new StandardService(Customer),
+    customerService: new CustomerService(Customer),
     customerBillingService: new StandardService(CustomerBilling),
     customeCartService: new StandardService(CustomerCart),
     customerCodeService: new StandardService(CustomerCode),
@@ -417,17 +412,17 @@ const initServices = () => {
     stCurrencyRate: new StandardService(StCurrencyRate),
     stCurrencyRateDetailService: new StandardService(StCurrencyRateDetail),
     stratumService: new StratumService(Stratum),
-    supplierService: new StandardService(Supplier),
+    supplierService: new SupplierService(Supplier),
     supplierBankService: new StandardService(SupplierBank),
     supplierBrandService: new StandardService(SupplierBrand),
     supplierContactService: new StandardService(SupplierContact),
-    supplierGroupService: new StandardService(SupplierGroup),
+    supplierGroupService: new SupplierGroupService(SupplierGroup),
     supplierPaymentService: new StandardService(SupplierPayment),
     supplierPurchaseService: new StandardService(SupplierPurchase),
-    supplierRegionService: new StandardService(SupplierRegion),
-    supplierSegmentationService: new StandardService(SupplierSegmentation),
+    supplierRegionService: new SupplierRegionService(SupplierRegion),
+    supplierSegmentationService: new SupplierSegmentationService(SupplierSegmentation),
     supplierTaxService: new StandardService(SupplierTax),
-    supplierTypeService: new StandardService(SupplierType),
+    supplierTypeService: new SupplierTypeService(SupplierType),
     taxService: new TaxService(Tax),
     taxFormService: new StandardService(TaxForm),
     transactionService: new TransactionService(Transaction),
@@ -579,9 +574,7 @@ const initServices = () => {
     offshorePurchaseOrderService: new StandardTransactionService(OffshorePurchaseOrder),
     offshorePurchaseReceiveService: new StandardTransactionService(OffshorePurchaseReceive),
     offshorePurchaseInvoiceService: new StandardTransactionService(OffshorePurchaseInvoice),
-    offshorePurchaseAdvancedPaymentService: new StandardTransactionService(
-      OffshorePurchaseAdvancePayment
-    ),
+    offshorePurchaseAdvancedPaymentService: new StandardTransactionService(OffshorePurchaseAdvancePayment),
     offshorePurchasePaymentService: new StandardTransactionService(OffshorePurchasePayment),
     offshorePurchaseCreditNoteService: new StandardTransactionService(OffshorePurchaseCreditNote),
     offshoreSalesInvoiceService: new StandardTransactionService(OffshoreSalesInvoice),

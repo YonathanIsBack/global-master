@@ -560,12 +560,12 @@ const route = (app) => {
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.PRINCIPAL, principalRoute(controllers));
   //PURCHASE/MASTER
   router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER, supplierRoute(controllers));
-  router.use(Endpoint.PURCHASE + Endpoint.MASTER + Endpoint.SUPPLIER_GROUP, supplierGroupRoute(controllers));
-  router.use(Endpoint.PURCHASE + Endpoint.MASTER + Endpoint.SUPPLIER_SEGMENTATION, supplierSegmentationRoute(controllers));
+  router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER_GROUP, supplierGroupRoute(controllers));
+  router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER_SEGMENTATION, supplierSegmentationRoute(controllers));
   router.use(Endpoint.PURCHASE + Endpoint.MASTER + Endpoint.SUPPLIER_SUBSEGMENTATION, supplierSegmentationRoute(controllers));
   router.use(Endpoint.PURCHASE + Endpoint.MASTER + Endpoint.SUPPLIER_SUBSUBSEGMENTATION, supplierSegmentationRoute(controllers));
-  router.use(Endpoint.PURCHASE + Endpoint.MASTER + Endpoint.SUPPLIER_TYPE, supplierTypeRoute(controllers));
-  router.use(Endpoint.PURCHASE + Endpoint.MASTER + Endpoint.SUPPLIER_REGION, supplierRegionRoute(controllers));
+  router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER_TYPE, supplierTypeRoute(controllers));
+  router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER_REGION, supplierRegionRoute(controllers));
 
   //SALES/MASTER
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_PERSONAL, customerRoute(controllers));

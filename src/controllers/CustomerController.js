@@ -22,6 +22,7 @@ class CustomerController extends StandardController {
     this.create = this.create.bind(this);
     this.restore = this.restore.bind(this);
     this.delete = this.delete.bind(this);
+    this.getAll = this.getAll.bind(this);
   }
 
   async create(request, response) {
@@ -43,6 +44,27 @@ class CustomerController extends StandardController {
     const customerDto = new CustomerDto(body);
 
     return await super.delete(request, response, customerDto);
+  }
+
+  async getAll(request, response) {
+    const requestBody = request.body;
+    const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
+    const customerClassClause = request.originalUrl.includes('individu') ? { customerClass: 1 } : { customerClass: 2 };
+    const data = await this.service.getAll({
+      whereClause: { ...searchClause, customerClassClause },
+      limit: requestBody.length,
+      offset: requestBody.start,
+      orderIndex: requestBody.order[0].column,
+      orderDirection: requestBody.order[0].dir
+    });
+    const totalRows = await this.service.count({ whereClause: searchClause });
+
+    const payload = {
+      result: data.map((currency) => ObjectUtil.toSnakeCase(currency)),
+      total_rows: totalRows
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
   }
 }
 

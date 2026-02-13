@@ -1,22 +1,24 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import { Country } from './Country.js';
+import Province from './Province.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
-class Customer extends StandardModel { }
-class CustomerBilling extends StandardModel { }
-class CustomerCart extends StandardModel { }
-class CustomerCode extends StandardModel { }
-class CustomerContact extends StandardModel { }
-class CustomerDelivery extends StandardModel { }
-class CustomerDocument extends StandardModel { }
-class CustomerGroup extends StandardModel { }
-class CustomerImg extends StandardModel { }
-class CustomerRegion extends StandardModel { }
-class CustomerSales extends StandardModel { }
-class CustomerSegmentation extends StandardModel { }
-class CustomerTax extends StandardModel { }
-class CustomerType extends StandardModel { }
+class Customer extends StandardModel {}
+class CustomerBilling extends StandardModel {}
+class CustomerCart extends StandardModel {}
+class CustomerCode extends StandardModel {}
+class CustomerContact extends StandardModel {}
+class CustomerDelivery extends StandardModel {}
+class CustomerDocument extends StandardModel {}
+class CustomerGroup extends StandardModel {}
+class CustomerImg extends StandardModel {}
+class CustomerRegion extends StandardModel {}
+class CustomerSales extends StandardModel {}
+class CustomerSegmentation extends StandardModel {}
+class CustomerTax extends StandardModel {}
+class CustomerType extends StandardModel {}
 
 Customer.init(
   StandardModel.buildPropertyWithOptions(
@@ -266,11 +268,7 @@ CustomerSegmentation.init(
     },
     { withDbId: true, withIsactive: true, withIsdel: true, withIsused: true, withCreate: true, withModify: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'ms_customer_segmentation',
-    'CustomerSegmentation',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('ms_customer_segmentation', 'CustomerSegmentation', sequelize)
 );
 
 CustomerTax.init(
@@ -333,6 +331,9 @@ CustomerType.init(
   ),
   StandardModel.buildStandardModelInformation('ms_customer_type', 'CustomerType', sequelize)
 );
+
+Customer.hasOne(Country, { sourceKey: 'customerCountryId', foreignKey: 'country_id' });
+Customer.hasOne(Province, { sourceKey: 'customerProvinceId', foreignKey: 'province_id' });
 
 export {
   Customer,
