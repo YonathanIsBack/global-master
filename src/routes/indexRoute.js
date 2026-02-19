@@ -26,7 +26,7 @@ import brandRoute from './brandRoute.js';
 import { buyingPriceListImportRoute } from './buyingPriceListImportRoute.js';
 import { buyingPriceListRoute } from './buyingPriceListRoute.js';
 import cityRoute from './cityRoute.js';
-import { coaBankRoute, coaGroupRoute, coaRoute, coaSubGroupRoute, coaTypeRoute } from './coaRoute.js';
+import { coaBankRoute, coaGroupRoute, coaRoute, coaSubGroupRoute, coaSubLedgerRoute, coaTypeRoute } from './coaRoute.js';
 import { companyBankRoute, companyRoute } from './companyRoute.js';
 import { countryCodeRoute, countryRoute } from './countryRoute.js';
 import currencyRoute from './currencyRoute.js';
@@ -43,6 +43,7 @@ import {
   customerRoute,
   customerSalesRoute,
   customerSegmentationRoute,
+  customerSubSegmentationRoute,
   customerTaxRoute,
   customerTypeRoute
 } from './customerRoute.js';
@@ -574,7 +575,7 @@ const route = (app) => {
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_REGION, customerRegionRoute(controllers));
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_GROUP, customerGroupRoute(controllers));
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SEGMENTATION, customerSegmentationRoute(controllers));
-  router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SUB_SEGMENTATION, customerSegmentationRoute(controllers));
+  router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SUB_SEGMENTATION, customerSubSegmentationRoute(controllers));
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SUBSUBSEGMENTATION, customerSegmentationRoute(controllers));
 
   router.use(createInventoryTransactionRoute(app));
@@ -598,7 +599,7 @@ const route = (app) => {
   router.use(Endpoint.ACCOUNTING + Endpoint.MASTER + Endpoint.COA_TYPE, coaTypeRoute(controllers));
   router.use(Endpoint.ACCOUNTING + Endpoint.MASTER + Endpoint.COA_GROUP, coaGroupRoute(controllers));
   router.use(Endpoint.ACCOUNTING + Endpoint.MASTER + Endpoint.COA_SUB_GROUP, coaSubGroupRoute(controllers));
-  router.use(Endpoint.ACCOUNTING + Endpoint.MASTER + Endpoint.COA_SUB_LEDGER, coaRoute(controllers));
+  router.use(Endpoint.ACCOUNTING + Endpoint.MASTER + Endpoint.COA_SUB_LEDGER, coaSubLedgerRoute(controllers));
 
   //FIXEDASSET/
   router.use(Endpoint.FIXED_ASSET + Endpoint.MASTER + Endpoint.FIXED_ASSET, fixedAssetRoute(controllers));

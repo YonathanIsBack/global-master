@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import {
   CustomerBillingDto,
   CustomerCartDto,
@@ -15,6 +16,7 @@ import {
   CustomerTypeDto
 } from '../dto/CustomerDto.js';
 import StandardController from './StandardController.js';
+import buildResponse from '../util/buildResponse.js';
 
 class CustomerController extends StandardController {
   constructor(customerService) {
@@ -46,12 +48,19 @@ class CustomerController extends StandardController {
     return await super.delete(request, response, customerDto);
   }
 
+  async count(request, response) {
+    const customerClassClause = request.originalUrl.includes('individu') ? { customerClass: 1 } : { customerClass: 2 };
+    const totalRows = await this.service.count({ whereClause: { ...customerClassClause } });
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', totalRows));
+  }
+
   async getAll(request, response) {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
     const customerClassClause = request.originalUrl.includes('individu') ? { customerClass: 1 } : { customerClass: 2 };
     const data = await this.service.getAll({
-      whereClause: { ...searchClause, customerClassClause },
+      whereClause: { ...searchClause, ...customerClassClause },
       limit: requestBody.length,
       offset: requestBody.start,
       orderIndex: requestBody.order[0].column,
@@ -390,6 +399,32 @@ class CustomerSegmentationController extends StandardController {
     const customerSegmentationDto = new CustomerSegmentationDto(body);
 
     return await super.delete(request, response, customerSegmentationDto);
+  }
+
+  async count(request, response) {
+    const totalRows = await this.service.count({ whereClause: { parentId: 0 } });
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', totalRows));
+  }
+
+  async getAll(request, response) {
+    const requestBody = request.body;
+    const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
+    const data = await this.service.getAll({
+      whereClause: { ...searchClause, parentId: 0 },
+      limit: requestBody.length,
+      offset: requestBody.start,
+      orderIndex: requestBody.order[0].column,
+      orderDirection: requestBody.order[0].dir
+    });
+    const totalRows = await this.service.count({ whereClause: searchClause });
+
+    const payload = {
+      result: data.map((currency) => ObjectUtil.toSnakeCase(currency)),
+      total_rows: totalRows
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
   }
 }
 class CustomerTaxController extends StandardController {

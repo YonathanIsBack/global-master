@@ -7,7 +7,7 @@ import BrandController from '../controllers/BrandController.js';
 import { BuyingPriceListController, BuyingPriceListDetailController } from '../controllers/BuyingPriceListController.js';
 import { BuyingPriceListImportController, BuyingPriceListImportDetailController } from '../controllers/BuyingPriceListImportController.js';
 import CityController from '../controllers/CityController.js';
-import { CoaBankController, CoaController, CoaGroupController, CoaSubGroupController, CoaTypeController } from '../controllers/CoaController.js';
+import { CoaBankController, CoaController, CoaGroupController, CoaSubGroupController, CoaSubledgerController, CoaTypeController } from '../controllers/CoaController.js';
 import { CompanyBankController, CompanyController } from '../controllers/CompanyController.js';
 import { CountryCodeController, CountryController } from '../controllers/CountryController.js';
 import CurrencyController from '../controllers/CurrencyController.js';
@@ -120,6 +120,7 @@ import DeferralController from '../controllers/gl/DeferralJurnalController.js';
 import MemoJurnalController from '../controllers/gl/MemoJurnalController.js';
 import PaymentMemoController from '../controllers/gl/PaymentMemoController.js';
 import { CoretaxCategoryController, CoretaxCountryController, CoretaxFacilityController, CoretaxInfoController, CoretaxJenisPembeliController, CoretaxTaxController, CoretaxTransactionCodeController, CoretaxTypeController, CoretaxUomController } from '../controllers/ms/CoretaxController.js';
+import CustomerSubSegmentationController from '../controllers/ms/CustomerSubSegmentationController.js';
 import { StCoaController, StCoaDtControler } from '../controllers/st/StCoaController.js';
 import KasbonController from '../controllers/tr/KasbonController.js';
 import {
@@ -225,6 +226,7 @@ const initControllers = (services) => {
     coaGroupController: new CoaGroupController(services.coaGroupService),
     coaSubGroupController: new CoaSubGroupController(services.coaSubGroupService),
     coaTypeController: new CoaTypeController(services.coaTypeService),
+    coaSubledgerController: new CoaSubledgerController(services.coaSubledgerService),
     companyController: new CompanyController(services.companyService),
     companyBankController: new CompanyBankController(services.companyBankService),
     countryController: new CountryController(services.countryService),
@@ -242,6 +244,7 @@ const initControllers = (services) => {
     customerRegionController: new CustomerRegionController(services.customerRegionService),
     customerSalesController: new CustomerSalesController(services.customerSalesService),
     customerSegmentationController: new CustomerSegmentationController(services.customerSegmentationService),
+    customerSubSegmentationController: new CustomerSubSegmentationController(services.customerSegmentationService),
     customerTaxController: new CustomerTaxController(services.customerTaxService),
     customerTypeController: new CustomerTypeController(services.customerTypeService),
     departmentController: new DepartmentController(services.departmentService),

@@ -323,6 +323,19 @@ import SupplierSegmentationService from '../services/ms/SupplierSegmentationServ
 import SupplierTypeService from '../services/ms/SupplierTypeService.js';
 import SupplierRegionService from '../services/ms/SupplierRegionService.js';
 import CustomerService from '../services/ms/CustomerService.js';
+import CustomerSegmentationService from '../services/ms/CustomerSegmentationService.js';
+import CustomerGroupService from '../services/ms/CustomerGroupService.js';
+import CustomerTypeService from '../services/ms/CustomerTypeService.js';
+import CustomerRegionService from '../services/ms/CustomerRegionService.js';
+import SalesmanService from '../services/ms/SalesmanService.js';
+import CoaTypeService from '../services/ms/CoaTypeService.js';
+import CoaGroupService from '../services/ms/CoaGroupService.js';
+import CoaSubGroupService from '../services/ms/CustomerSubGroupService.js';
+import CoaService from '../services/ms/CoaService.js';
+import CoaSubLedgerService from '../services/ms/CoaSubLedgerService.js';
+import FixedAssetService from '../services/ms/FixedAssetService.js';
+import FixedAssetGroupService from '../services/ms/FixedAssetGroupService.js';
+import FixedAssetCategoryService from '../services/ms/FixedAssetCategoryService.js';
 
 const initServices = () => {
   return {
@@ -342,11 +355,12 @@ const initServices = () => {
     buyingPriceListService: new StandardService(BuyingPriceList),
     buyingPriceListDetailService: new StandardService(BuyingPriceListDetail),
     cityService: new StandardService(City),
-    coaService: new StandardService(Coa),
+    coaService: new CoaService(Coa),
     coaBankService: new StandardService(CoaBank),
-    coaGroupService: new StandardService(CoaGroup),
-    coaSubGroupService: new StandardService(CoaSubGroup),
-    coaTypeService: new StandardService(CoaType),
+    coaGroupService: new CoaGroupService(Coa),
+    coaSubGroupService: new CoaSubGroupService(Coa),
+    coaTypeService: new CoaTypeService(Coa),
+    coaSubledgerService: new CoaSubLedgerService(Coa),
     companyService: new StandardService(Company),
     companyBankService: new StandardService(CompanyBank),
     countryService: new CountryService(Country),
@@ -359,21 +373,21 @@ const initServices = () => {
     customerContactSevice: new StandardService(CustomerContact),
     customerDeliveryService: new StandardService(CustomerDelivery),
     customerDocumentSerice: new StandardService(CustomerDocument),
-    customerGroupService: new StandardService(CustomerGroup),
+    customerGroupService: new CustomerGroupService(CustomerGroup),
     customerImgService: new StandardService(CustomerImg),
-    customerRegionService: new StandardService(CustomerRegion),
+    customerRegionService: new CustomerRegionService(CustomerRegion),
     customerSalesService: new StandardService(CustomerSales),
-    customerSegmentationService: new StandardService(CustomerSegmentation),
+    customerSegmentationService: new CustomerSegmentationService(CustomerSegmentation),
     customerTaxService: new StandardService(CustomerTax),
-    customerTypeService: new StandardService(CustomerType),
+    customerTypeService: new CustomerTypeService(CustomerType),
     departmentService: new DepartmentService(Department),
     endOfMonthLogService: new StandardService(EndOfMonthLog),
     endOfMonthService: new StandardService(EndOfMonth),
     endOfMonthSettingService: new StandardService(EndOfMonthSetting),
     fakturPajakService: new FakturPajakService(FakturPajak),
-    fixedAssetService: new StandardService(FixedAsset),
-    fixedAssetCategoryService: new StandardService(FixedAssetCategory),
-    fixedAssetGroupService: new StandardService(FixedAssetGroup),
+    fixedAssetService: new FixedAssetService(FixedAsset),
+    fixedAssetCategoryService: new FixedAssetCategoryService(FixedAssetCategory),
+    fixedAssetGroupService: new FixedAssetGroupService(FixedAssetGroup),
     fixedDepreciationService: new StandardService(FixedDepreciation),
     itemService: new ItemService(Item),
     itemBuyingService: new StandardService(ItemBuying),
@@ -402,7 +416,7 @@ const initServices = () => {
     provinceService: new ProvinceService(Province),
     districtService: new StandardService(District),
     subdistrictService: new StandardService(SubDistrict),
-    salesmanService: new StandardService(Salesman),
+    salesmanService: new SalesmanService(Salesman),
     salesmanCommissionService: new StandardService(SalesmanCommision),
     salesmanTargetService: new StandardService(SalesmanTarget),
     salesPriceService: new SalesPriceService(SalesPrice),

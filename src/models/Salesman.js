@@ -1,12 +1,12 @@
-
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import { User } from './User.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
-class Salesman extends StandardModel { }
-class SalesmanCommision extends StandardModel { }
-class SalesmanTarget extends StandardModel { }
+class Salesman extends StandardModel {}
+class SalesmanCommision extends StandardModel {}
+class SalesmanTarget extends StandardModel {}
 
 Salesman.init(
   StandardModel.buildPropertyWithOptions(
@@ -53,11 +53,7 @@ SalesmanCommision.init(
     },
     { withDbId: true, withIsactive: true, withIsdel: true, withCreate: true, withModify: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'ms_salesman_commission',
-    'SalesmanCommision',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('ms_salesman_commission', 'SalesmanCommision', sequelize)
 );
 
 SalesmanTarget.init(
@@ -80,5 +76,7 @@ SalesmanTarget.init(
   ),
   StandardModel.buildStandardModelInformation('ms_salesman_target', 'SalesmanTarget', sequelize)
 );
+
+Salesman.hasOne(User, { sourceKey: 'userId', foreignKey: 'user_id' });
 
 export { Salesman, SalesmanCommision, SalesmanTarget };

@@ -1,12 +1,13 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import Location from './Location.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
-class FixedAsset extends StandardModel { }
-class FixedAssetCategory extends StandardModel { }
-class FixedAssetGroup extends StandardModel { }
-class FixedDepreciation extends StandardModel { }
+class FixedAsset extends StandardModel {}
+class FixedAssetCategory extends StandardModel {}
+class FixedAssetGroup extends StandardModel {}
+class FixedDepreciation extends StandardModel {}
 
 FixedAsset.init(
   StandardModel.buildPropertyWithOptions(
@@ -49,11 +50,7 @@ FixedAssetCategory.init(
     },
     { withDbId: true, withIsactive: true, withIsdel: true, withIsused: true, withCreate: true, withModify: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'ms_fixed_asset_category',
-    'FixedAssetCategory',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('ms_fixed_asset_category', 'FixedAssetCategory', sequelize)
 );
 
 FixedAssetGroup.init(
@@ -83,11 +80,12 @@ FixedDepreciation.init(
     },
     { withIsactive: true, withIsdel: true, withCreate: true, withModify: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'ms_fixed_depreciation',
-    'FixedDepreciation',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('ms_fixed_depreciation', 'FixedDepreciation', sequelize)
 );
+
+FixedAsset.hasOne(FixedAssetGroup, { foreignKey: 'fixed_asset_group_id', sourceKey: 'fixedAssetGroupId' });
+FixedAsset.hasOne(FixedAssetCategory, { foreignKey: 'fixed_asset_category_id', sourceKey: 'fixedAssetGroupId' });
+FixedAsset.hasOne(Location, { foreignKey: 'location_id', sourceKey: 'locationId' });
+FixedAssetGroup.hasOne(FixedDepreciation, { foreignKey: 'depreciation_id', sourceKey: 'depreciationMethod' });
 
 export { FixedAsset, FixedAssetCategory, FixedAssetGroup, FixedDepreciation };

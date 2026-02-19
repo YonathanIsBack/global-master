@@ -1,4 +1,5 @@
 import { CoaBankDto, CoaDto, CoaGroupDto, CoaSubGroupDto, CoaTypeDto } from '../dto/CoaDto.js';
+import { Coa } from '../models/Coa.js';
 import StandardController from './StandardController.js';
 
 class CoaController extends StandardController {
@@ -151,10 +152,41 @@ class CoaTypeController extends StandardController {
   }
 }
 
+class CoaSubledgerController extends StandardController {
+  constructor(coaTypeService) {
+    super(coaTypeService);
+    this.create = this.create.bind(this);
+    this.restore = this.restore.bind(this);
+    this.delete = this.delete.bind(this);
+  }
+
+  async create(request, response) {
+    const { body } = request;
+    const coaTypeDto = new Coa(body);
+
+    return await super.create(request, response, coaTypeDto);
+  }
+
+  async restore(request, response) {
+    const { body } = request;
+    const coaTypeDto = new Coa(body);
+
+    return await super.restore(request, response, coaTypeDto);
+  }
+
+  async delete(request, response) {
+    const { body } = request;
+    const coaTypeDto = new Coa(body);
+
+    return await super.delete(request, response, coaTypeDto);
+  }
+}
+
 export {
   CoaBankController,
   CoaController,
   CoaGroupController,
   CoaSubGroupController,
-  CoaTypeController
+  CoaTypeController,
+  CoaSubledgerController
 };
