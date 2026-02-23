@@ -14,12 +14,10 @@ class StandardController {
 
   async create(request, response, dto) {
     const { data, isUpdated, details } = await this.service.createOrUpdate(dto);
-    const statusCode = isUpdated ? StatusCodes.OK : StatusCodes.CREATED;
     const message = isUpdated ? Constant.UPDATED : Constant.CREATED;
+    const res = [{ status: 200 }];
 
-    return response
-      .status(statusCode)
-      .json(buildResponse(statusCode, message, { ...data, details }));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, message, null, res));
   }
 
   async insertTransaction(request, response, dto) {
@@ -27,49 +25,45 @@ class StandardController {
     const statusCode = isUpdated ? StatusCodes.OK : StatusCodes.CREATED;
     const message = isUpdated ? Constant.UPDATED : Constant.CREATED;
 
-    return response
-      .status(statusCode)
-      .json(buildResponse(statusCode, message, { ...data, details }));
+    return response.status(statusCode).json(buildResponse(statusCode, message, { ...data, details }));
   }
 
   async delete(request, response, dto) {
     const data = await this.service.delete(dto);
 
-    return response
-      .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, Constant.DELETED, data));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, Constant.DELETED, data));
   }
 
   async restore(request, response, dto) {
     const { data } = await this.service.createOrUpdate(dto);
 
-    return response
-      .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, Constant.RESTORED, data));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, Constant.RESTORED, data));
   }
 
   async count(request, response) {
     const totalRows = await this.service.count();
 
-    return response
-      .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, "Success", totalRows));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', totalRows));
   }
 
   async getAll(request, response) {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
-    const data = await this.service.getAll({ whereClause: searchClause, limit: requestBody.length, offset: requestBody.start, orderIndex: requestBody.order[0].column, orderDirection: requestBody.order[0].dir });
+    const data = await this.service.getAll({
+      whereClause: searchClause,
+      limit: requestBody.length,
+      offset: requestBody.start,
+      orderIndex: requestBody.order[0].column,
+      orderDirection: requestBody.order[0].dir
+    });
     const totalRows = await this.service.count({ whereClause: searchClause });
 
     const payload = {
-      result: data.map(currency => ObjectUtil.toSnakeCase(currency)),
-      total_rows: totalRows,
-    }
+      result: data.map((currency) => ObjectUtil.toSnakeCase(currency)),
+      total_rows: totalRows
+    };
 
-    return response
-      .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, "Success", payload));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
   }
 
   async getAllDataAPI(request, response) {
@@ -77,18 +71,16 @@ class StandardController {
     const primaryKey = this.service.model.primaryKeyAttributes[0];
     const whereClause = {
       [primaryKey]: requestBody.where_in
-    }
+    };
 
-    const data = await this.service.getAll({ whereClause });
+    const datas = await this.service.getAll({ whereClause, limit: requestBody.where_in.length });
 
     const payload = {
-      result: data.map(currency => ObjectUtil.toSnakeCase(currency)),
-      total_rows: data.length
-    }
+      result: datas.map((data) => ObjectUtil.toSnakeCase(data)),
+      total_rows: datas.length
+    };
 
-    return response
-      .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, "Success", payload));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
   }
 }
 
