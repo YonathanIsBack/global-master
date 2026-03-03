@@ -264,21 +264,21 @@ class ItemSubcategoryController extends StandardController {
 
   async create(request, response) {
     const { body } = request;
-    const itemSubcategoryDto = new ItemSubCategoryDto(body);
+    const itemSubcategoryDto = new ItemCategoryDto(body);
 
     return await super.create(request, response, itemSubcategoryDto);
   }
 
   async restore(request, response) {
     const { body } = request;
-    const itemSubcategoryDto = new ItemSubCategoryDto(body);
+    const itemSubcategoryDto = new ItemCategoryDto(body);
 
     return await super.restore(request, response, itemSubcategoryDto);
   }
 
   async delete(request, response) {
     const { body } = request;
-    const itemSubcategoryDto = new ItemSubCategoryDto(body);
+    const itemSubcategoryDto = new ItemCategoryDto(body);
 
     return await super.delete(request, response, itemSubcategoryDto);
   }
