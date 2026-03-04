@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import {
   SupplierBankDto,
   SupplierBrandDto,
@@ -12,6 +13,7 @@ import {
   SupplierTypeDto
 } from '../dto/SupplierDto.js';
 import StandardController from './StandardController.js';
+import buildResponse from '../util/buildResponse.js';
 
 class SupplierController extends StandardController {
   constructor(supplierService) {
@@ -19,6 +21,7 @@ class SupplierController extends StandardController {
     this.create = this.create.bind(this);
     this.restore = this.restore.bind(this);
     this.delete = this.delete.bind(this);
+    this.getDataApi = this.getDataApi.bind(this);
   }
 
   async create(request, response) {
@@ -40,6 +43,23 @@ class SupplierController extends StandardController {
     const supplierDto = new SupplierDto(body);
 
     return await super.delete(request, response, supplierDto);
+  }
+
+  async getDataApi(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.where_in
+    };
+
+    const data = await this.service.getDataApi({ whereClause, limit: requestBody.where_in.length });
+
+    const responseBody = {
+      valid: true,
+      res: data
+    };
+
+    return response.status(StatusCodes.OK).json(responseBody);
   }
 }
 

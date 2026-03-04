@@ -7,6 +7,7 @@ const supplierRoute = (controllers) => {
   router.post('/count_all', supplierController.count);
   router.post('/get_all_data_supplier_ajax', supplierController.getAll);
   router.post('/get_all_data_api', supplierController.getAllDataAPI);
+  router.post('/get_data_api', supplierController.getDataApi);
 
   return router;
 };

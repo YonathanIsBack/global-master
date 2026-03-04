@@ -3,18 +3,18 @@ import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
-class Supplier extends StandardModel { }
-class SupplierBank extends StandardModel { }
-class SupplierBrand extends StandardModel { }
-class SupplierContact extends StandardModel { }
-class SupplierCurrency extends StandardModel { }
-class SupplierGroup extends StandardModel { }
-class SupplierPayment extends StandardModel { }
-class SupplierPurchase extends StandardModel { }
-class SupplierRegion extends StandardModel { }
-class SupplierSegmentation extends StandardModel { }
-class SupplierTax extends StandardModel { }
-class SupplierType extends StandardModel { }
+class Supplier extends StandardModel {}
+class SupplierBank extends StandardModel {}
+class SupplierBrand extends StandardModel {}
+class SupplierContact extends StandardModel {}
+class SupplierCurrency extends StandardModel {}
+class SupplierGroup extends StandardModel {}
+class SupplierPayment extends StandardModel {}
+class SupplierPurchase extends StandardModel {}
+class SupplierRegion extends StandardModel {}
+class SupplierSegmentation extends StandardModel {}
+class SupplierTax extends StandardModel {}
+class SupplierType extends StandardModel {}
 
 Supplier.init(
   StandardModel.buildPropertyWithOptions(
@@ -111,7 +111,7 @@ SupplierCurrency.init(
     {
       ...StandardModel.buildPrimaryKey('supplierCurrencyId', DataTypes.BIGINT),
       supplierId: DataTypes.BIGINT,
-      currencyId: DataTypes.BIGINT,
+      currencyId: DataTypes.BIGINT
     },
     { withCreate: true, withModify: true }
   ),
@@ -202,11 +202,7 @@ SupplierSegmentation.init(
     },
     { withDbId: true, withIsactive: true, withIsdel: true, withIsused: true, withCreate: true, withModify: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'ms_supplier_segmentation',
-    'SupplierSegmentation',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('ms_supplier_segmentation', 'SupplierSegmentation', sequelize)
 );
 
 SupplierTax.init(
@@ -247,6 +243,11 @@ SupplierType.init(
   ),
   StandardModel.buildStandardModelInformation('ms_supplier_type', 'SupplierType', sequelize)
 );
+
+Supplier.belongsTo(SupplierContact, { foreignKey: 'supplierId' });
+Supplier.belongsTo(SupplierPayment, { foreignKey: 'supplierId' });
+Supplier.belongsTo(SupplierTax, { foreignKey: 'supplierId' });
+Supplier.belongsTo(SupplierPurchase, { foreignKey: 'supplierId' });
 
 export {
   Supplier,

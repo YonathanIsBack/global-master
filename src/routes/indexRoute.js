@@ -560,6 +560,7 @@ const route = (app) => {
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.LABEL, labelRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.PRINCIPAL, principalRoute(controllers));
   //PURCHASE/MASTER
+  router.use(Endpoint.MASTER + Endpoint.MASTER + Endpoint.SUPPLIER, supplierRoute(controllers));
   router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER, supplierRoute(controllers));
   router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER_GROUP, supplierGroupRoute(controllers));
   router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER_SEGMENTATION, supplierSegmentationRoute(controllers));
