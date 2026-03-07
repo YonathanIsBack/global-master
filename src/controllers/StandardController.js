@@ -59,7 +59,7 @@ class StandardController {
     const totalRows = await this.service.count({ whereClause: searchClause });
 
     const payload = {
-      result: data.map((currency) => ObjectUtil.toSnakeCase(currency)),
+      result: data.map((data) => ObjectUtil.toSnakeCase(data)),
       total_rows: totalRows
     };
 
