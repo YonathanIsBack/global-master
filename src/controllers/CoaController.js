@@ -72,21 +72,21 @@ class CoaGroupController extends StandardController {
 
   async create(request, response) {
     const { body } = request;
-    const coaGroupDto = new CoaGroupDto(body);
+    const coaDto = new CoaDto(body);
 
-    return await super.create(request, response, coaGroupDto);
+    return await super.create(request, response, coaDto);
   }
 
   async restore(request, response) {
     const { body } = request;
-    const coaGroupDto = new CoaGroupDto(body);
+    const coaDto = new CoaDto(body);
 
-    return await super.restore(request, response, coaGroupDto);
+    return await super.restore(request, response, coaDto);
   }
 
   async delete(request, response) {
     const { body } = request;
-    const coaGroupDto = new CoaGroupDto(body);
+    const coaGroupDto = new CoaDto(body);
 
     return await super.delete(request, response, coaGroupDto);
   }
@@ -102,21 +102,21 @@ class CoaSubGroupController extends StandardController {
 
   async create(request, response) {
     const { body } = request;
-    const coaSubGroupDto = new CoaSubGroupDto(body);
+    const coaSubGroupDto = new CoaDto(body);
 
     return await super.create(request, response, coaSubGroupDto);
   }
 
   async restore(request, response) {
     const { body } = request;
-    const coaSubGroupDto = new CoaSubGroupDto(body);
+    const coaSubGroupDto = new CoaDto(body);
 
     return await super.restore(request, response, coaSubGroupDto);
   }
 
   async delete(request, response) {
     const { body } = request;
-    const coaSubGroupDto = new CoaSubGroupDto(body);
+    const coaSubGroupDto = new CoaDto(body);
 
     return await super.delete(request, response, coaSubGroupDto);
   }
@@ -132,23 +132,23 @@ class CoaTypeController extends StandardController {
 
   async create(request, response) {
     const { body } = request;
-    const coaTypeDto = new CoaTypeDto(body);
+    const coaDto = new CoaDto(body);
 
-    return await super.create(request, response, coaTypeDto);
+    return await super.create(request, response, coaDto);
   }
 
   async restore(request, response) {
     const { body } = request;
-    const coaTypeDto = new CoaTypeDto(body);
+    const coaDto = new CoaDto(body);
 
-    return await super.restore(request, response, coaTypeDto);
+    return await super.restore(request, response, coaDto);
   }
 
   async delete(request, response) {
     const { body } = request;
-    const coaTypeDto = new CoaTypeDto(body);
+    const coaDto = new CoaDto(body);
 
-    return await super.delete(request, response, coaTypeDto);
+    return await super.delete(request, response, coaDto);
   }
 }
 

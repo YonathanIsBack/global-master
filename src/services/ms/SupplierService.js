@@ -9,8 +9,6 @@ class SupplierService extends StandardService {
     super(Supplier);
   }
 
-  
-
   async getAll(params) {
     const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection } = params;
 

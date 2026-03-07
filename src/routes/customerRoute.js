@@ -55,7 +55,7 @@ const customerSubSegmentationRoute = (controllers) => {
   const { customerSubSegmentationController } = controllers;
   const router = RouteUtil.createStandardRoute(customerSubSegmentationController);
   router.post('/count_all', customerSubSegmentationController.count);
-  router.post('/get_all_data_customer_segmentation_ajax', customerSubSegmentationController.getAll);
+  router.post('/get_all_data_customer_sub_segmentation_ajax', customerSubSegmentationController.getAll);
   router.post('/get_all_data_api', customerSubSegmentationController.getAllDataAPI);
   router.post('/get_data_api', customerSubSegmentationController.getAllDataAPI);
 

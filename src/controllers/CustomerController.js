@@ -17,6 +17,7 @@ import {
 } from '../dto/CustomerDto.js';
 import StandardController from './StandardController.js';
 import buildResponse from '../util/buildResponse.js';
+import ObjectUtil from '../util/ObjectUtil.js';
 
 class CustomerController extends StandardController {
   constructor(customerService) {

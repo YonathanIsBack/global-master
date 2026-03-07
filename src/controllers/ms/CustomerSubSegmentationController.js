@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import { CustomerSegmentationDto } from '../../dto/CustomerDto.js';
 import buildResponse from '../../util/buildResponse.js';
 import StandardController from '../StandardController.js';
+import ObjectUtil from '../../util/ObjectUtil.js';
 
 class CustomerSubSegmentationController extends StandardController {
   constructor(customerService) {
