@@ -19,7 +19,7 @@ const buildResponse = (statusCode, message, payload, res) => {
     data[lodash.snakeCase(key)] = payload[key];
   });
 
-  return { ...response, data, res };
+  return { ...response, data, response: res };
 };
 
 export default buildResponse;
