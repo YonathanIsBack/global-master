@@ -162,21 +162,21 @@ class CoaSubledgerController extends StandardController {
 
   async create(request, response) {
     const { body } = request;
-    const coaTypeDto = new Coa(body);
+    const coaTypeDto = new CoaDto(body);
 
     return await super.create(request, response, coaTypeDto);
   }
 
   async restore(request, response) {
     const { body } = request;
-    const coaTypeDto = new Coa(body);
+    const coaTypeDto = new CoaDto(body);
 
     return await super.restore(request, response, coaTypeDto);
   }
 
   async delete(request, response) {
     const { body } = request;
-    const coaTypeDto = new Coa(body);
+    const coaTypeDto = new CoaDto(body);
 
     return await super.delete(request, response, coaTypeDto);
   }
