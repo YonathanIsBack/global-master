@@ -1,10 +1,11 @@
 import fs from 'fs';
-import { StatusCodes } from "http-status-codes";
-import { DateTime } from "luxon";
+import zlib from 'node:zlib';
+import { StatusCodes } from 'http-status-codes';
+import { DateTime } from 'luxon';
 import readline from 'readline';
-import LogEvent from "../constants/LogEvent.js";
-import buildResponse from "../util/buildResponse.js";
-import LoggerUtilSingleton from "../util/LoggerUtils.js";
+import LogEvent from '../constants/LogEvent.js';
+import buildResponse from '../util/buildResponse.js';
+import LoggerUtilSingleton from '../util/LoggerUtils.js';
 
 class MonitorApiController {
   #monitorApiService;
@@ -34,40 +35,66 @@ class MonitorApiController {
       });
     }
 
-    return response
-      .status(StatusCodes.NOT_FOUND)
-      .json(buildResponse(StatusCodes.NOT_FOUND, "LOG FILE NOT FOUND"));
+    return response.status(StatusCodes.NOT_FOUND).json(buildResponse(StatusCodes.NOT_FOUND, 'LOG FILE NOT FOUND'));
   }
 
   async healthCheck(request, response) {
     const { date = DateTime.now().toISODate() } = request.query;
     const logFilename = `logs/${date}.log`;
+    const logGzFilename = `logs/${date}.log.gz`;
     const payload = {};
 
     if (fs.existsSync(logFilename)) {
-      const logFile = readline.createInterface({
-        input: fs.createReadStream(logFilename),
-        output: process.stdout,
-        terminal: false
-      });
-
-      const logs = [];
-      for await (const line of logFile) {
-        const logObject = JSON.parse(line);
-        if (logObject.message.event === "API") {
-          const parsedLog = JSON.parse(line);
-
-          this.calculateProcessTime(parsedLog);
-          logs.unshift(parsedLog.message);
-        }
-      }
-
-      Object.assign(payload, { logs });
+      Object.assign(payload, { logs: await this.#readLogFile(logFilename) });
     }
 
-    return response
-      .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, "Success fetch logs", payload));
+    if (fs.existsSync(logGzFilename)) {
+      Object.assign(payload, { logs: await this.#readLogGz(logGzFilename) });
+    }
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success fetch logs', payload));
+  }
+
+  async #readLogFile(logFilename) {
+    const logFile = readline.createInterface({
+      input: fs.createReadStream(logFilename),
+      output: process.stdout,
+      terminal: false
+    });
+
+    const logs = [];
+    for await (const line of logFile) {
+      const logObject = JSON.parse(line);
+      if (logObject.message.event === 'API') {
+        const parsedLog = JSON.parse(line);
+
+        this.calculateProcessTime(parsedLog);
+        logs.unshift(parsedLog.message);
+      }
+    }
+
+    return logs;
+  }
+
+  async #readLogGz(logFilename) {
+    const logFile = readline.createInterface({
+      input: fs.createReadStream(logFilename).pipe(zlib.createGunzip()),
+      output: process.stdout,
+      terminal: false
+    });
+
+    const logs = [];
+    for await (const line of logFile) {
+      const logObject = JSON.parse(line);
+      if (logObject.message.event === 'API') {
+        const parsedLog = JSON.parse(line);
+
+        this.calculateProcessTime(parsedLog);
+        logs.unshift(parsedLog.message);
+      }
+    }
+
+    return logs;
   }
 
   calculateProcessTime(log) {
@@ -75,13 +102,12 @@ class MonitorApiController {
       return;
     }
 
-    const date1 = DateTime.fromFormat(log.message.endApi, "yyyy-MM-dd HH:mm:ss");
-    const date2 = DateTime.fromFormat(log.message.startApi, "yyyy-MM-dd HH:mm:ss");
+    const date1 = DateTime.fromFormat(log.message.endApi, 'yyyy-MM-dd HH:mm:ss');
+    const date2 = DateTime.fromFormat(log.message.startApi, 'yyyy-MM-dd HH:mm:ss');
 
-    const { values } = date1.diff(date2, ["seconds"]);
+    const { values } = date1.diff(date2, ['seconds']);
     log.message.processTime = values.seconds;
   }
-
 }
 
 export default MonitorApiController;
