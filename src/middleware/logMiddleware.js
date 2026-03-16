@@ -7,13 +7,13 @@ import resDotSendInterceptor from './resDotSendInterceptor.js';
 const extractToken = (request) => request.get('Authorization')?.split(' ')[1] ?? '';
 
 const logMiddleware = (request, response, next) => {
-  const excludedRoute = ['api-docs', '/v1/health-check'];
+  const excludedRoutes = ['api-docs', '/v1/health-check'];
   response.send = resDotSendInterceptor(response, response.send);
   const startApi = DateTime.now().setZone('Asia/Bangkok').toFormat('y-LL-dd HH:mm:ss');
   const startTimestamp = new Date();
 
   response.on('finish', () => {
-    if (!excludedRoute.includes(request.originalUrl)) {
+    if (!excludedRoutes.some(route => request.originalUrl.includes(route))) {
       const responseObject = {
         uri: request.get('host') + request.originalUrl,
         method: request.method,
@@ -27,6 +27,7 @@ const logMiddleware = (request, response, next) => {
         cretime: DateTime.now().setZone('Asia/Bangkok').toFormat('y-LL-dd HH:mm:ss'),
         creby: request.body.creby_log
       };
+
       const endApi = DateTime.now().setZone('Asia/Bangkok').toFormat('y-LL-dd HH:mm:ss');
       const endTimestamp = new Date();
       const apiDuration = Math.abs(endTimestamp - startTimestamp) / 1000;
@@ -36,6 +37,7 @@ const logMiddleware = (request, response, next) => {
         timestamp: { startApi, endApi, apiDuration },
         contentType
       });
+
       LogAPI.create(responseObject);
     }
   });

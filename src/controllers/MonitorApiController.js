@@ -67,7 +67,7 @@ class MonitorApiController {
 
     return response
       .status(StatusCodes.OK)
-      .json(buildResponse(StatusCodes.OK, "THIS API IS WORK IN PROGRESS", payload));
+      .json(buildResponse(StatusCodes.OK, "Success fetch logs", payload));
   }
 
   calculateProcessTime(log) {
