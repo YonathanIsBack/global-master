@@ -5,10 +5,14 @@ import apiValidator from '../util/apiValidator.js';
 import createStandardRoute from './createStandardRoute.js';
 
 const buyingPriceListRoute = (controllers) => {
-    const router = createStandardRoute(controllers.buyingPriceListController)
-    const { buyingPriceListDetailController } = controllers;
+    const { buyingPriceListController, buyingPriceListDetailController } = controllers;
+    const router = createStandardRoute(buyingPriceListController)
 
     router.post(Endpoint.DELETE_ITEM_PRICE, buyingPriceListDetailController.delete);
+    router.post("/count_all", buyingPriceListController.count);
+    router.post("/get_all_data_buying_price_list_ajax", buyingPriceListController.getAll);
+    router.post("/get_all_data_api", buyingPriceListController.getAllDataAPI);
+    router.post("/get_data_api", buyingPriceListController.getDataApi);
 
     return router;
 };

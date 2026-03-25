@@ -336,6 +336,7 @@ import CoaSubLedgerService from '../services/ms/CoaSubLedgerService.js';
 import FixedAssetService from '../services/ms/FixedAssetService.js';
 import FixedAssetGroupService from '../services/ms/FixedAssetGroupService.js';
 import FixedAssetCategoryService from '../services/ms/FixedAssetCategoryService.js';
+import BuyingPriceListService from '../services/tr/buying-price/BuyingPriceListService.js';
 
 const initServices = () => {
   return {
@@ -352,7 +353,7 @@ const initServices = () => {
     brandService: new BrandService(Brand),
     buyingPriceListImportService: new StandardService(BuyingPriceListImport),
     buyingPriceListImportDetailService: new StandardService(BuyingPriceListImportDetail),
-    buyingPriceListService: new StandardService(BuyingPriceList),
+    buyingPriceListService: new BuyingPriceListService(BuyingPriceList),
     buyingPriceListDetailService: new StandardService(BuyingPriceListDetail),
     cityService: new StandardService(City),
     coaService: new CoaService(Coa),

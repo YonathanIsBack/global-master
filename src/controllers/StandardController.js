@@ -10,6 +10,7 @@ class StandardController {
     this.count = this.count.bind(this);
     this.getAll = this.getAll.bind(this);
     this.getAllDataAPI = this.getAllDataAPI.bind(this);
+    this.getDataApi = this.getDataApi.bind(this);
   }
 
   async create(request, response, dto) {
@@ -77,6 +78,23 @@ class StandardController {
 
     const payload = {
       result: datas.map((data) => ObjectUtil.toSnakeCase(data)),
+      total_rows: datas.length
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
+  }
+
+  async getDataApi(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.id
+    };
+
+    const datas = await this.service.getAll({ whereClause });
+
+    const payload = {
+      ...ObjectUtil.toSnakeCase(datas[0]),
       total_rows: datas.length
     };
 

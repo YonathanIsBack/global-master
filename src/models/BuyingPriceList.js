@@ -34,11 +34,9 @@ BuyingPriceListDetail.init(
     },
     { withCreate: true, withModify: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'tr_purchase_price_dt',
-    'BuyingPriceListDetail',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('tr_purchase_price_dt', 'BuyingPriceListDetail', sequelize)
 );
+
+BuyingPriceList.hasMany(BuyingPriceListDetail, { foreignKey: 'purchasePriceId' });
 
 export { BuyingPriceList, BuyingPriceListDetail };
