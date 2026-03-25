@@ -40,5 +40,6 @@ SalesPriceDt.init(
   ),
   StandardModel.buildStandardModelInformation('tr_sales_price_dt', 'SalesPriceDt', sequelize)
 );
+SalesPrice.hasMany(SalesPriceDt, { foreignKey: 'salesPriceId' });
 
 export { SalesPrice, SalesPriceDt };

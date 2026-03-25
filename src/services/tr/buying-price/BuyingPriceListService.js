@@ -14,7 +14,6 @@ class BuyingPriceListService extends StandardService {
 
     const results = await this.model.findAll({
       where: whereClause,
-      // raw: true,
       limit: Number(limit),
       offset: Number(offset),
       order: this.buildOrderClause(orderIndex, orderDirection),

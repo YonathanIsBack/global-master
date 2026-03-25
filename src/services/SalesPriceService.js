@@ -6,6 +6,9 @@ import LoggerUtilSingleton from '../util/LoggerUtils.js';
 import StandardService from './StandardService.js';
 
 class SalesPriceService extends StandardService {
+  columnOrder = ['', 'name', 'publish_time', 'isactive'];
+  columnSearch = ['cretime', 'name', 'publish_time'];
+  
   constructor(model) {
     super(model);
   }
@@ -68,6 +71,21 @@ class SalesPriceService extends StandardService {
       const deletedData = await this.update(salesPrice.dataValues, transaction);
       return { data: { header: deletedData, details: deleted } };
     });
+  }
+  
+  async getAll(params) {
+    const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection, include = [] } = params;
+
+    const results = await this.model.findAll({
+      where: whereClause,
+      limit: Number(limit),
+      offset: Number(offset),
+      order: this.buildOrderClause(orderIndex, orderDirection),
+      nest: true,
+      include
+    });
+
+    return results.map((result) => ({ ...result.get({ plain: true }) }));
   }
 }
 
