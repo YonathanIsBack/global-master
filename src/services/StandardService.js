@@ -348,16 +348,31 @@ class StandardService {
   }
 
   async getAll(params) {
-    const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection } = params;
+    const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection, include = [], raw = true, nest = false } = params;
 
     return await this.model.findAll(
       {
         where: whereClause,
-        raw: true,
+        raw,
         limit: Number(limit),
         offset: Number(offset),
-        order: this.buildOrderClause(orderIndex, orderDirection)
+        order: this.buildOrderClause(orderIndex, orderDirection),
+        include,
+        nest
       });
+  }
+
+  async getOne(params) {
+    const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection, include = []} = params;
+
+    return await this.model.findOne({
+      where: whereClause,
+      limit: Number(limit),
+      offset: Number(offset),
+      order: this.buildOrderClause(orderIndex, orderDirection),
+      nest: true,
+      include
+    });
   }
 
   buildOrderClause(orderIndex = 0, orderDirection) {

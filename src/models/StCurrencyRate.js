@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import StCurrencyRateDetail from './StCurrencyRateDetail.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
 class StCurrencyRate extends StandardModel {}
@@ -17,5 +18,7 @@ StCurrencyRate.init(
   ),
   StandardModel.buildStandardModelInformation('st_currency_rate', 'StCurrencyRate', sequelize)
 );
+
+StCurrencyRate.hasMany(StCurrencyRateDetail, { foreignKey: 'currencyRateId' });
 
 export default StCurrencyRate;

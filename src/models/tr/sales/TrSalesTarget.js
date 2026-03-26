@@ -36,4 +36,6 @@ TrSalesTargetDt.init(
   StandardModel.buildStandardModelInformation('tr_sales_target_dt', 'TrSalesTargetDt', sequelize)
 );
 
+TrSalesTarget.hasMany(TrSalesTargetDt, { foreignKey: 'salesTargetId' });
+
 export { TrSalesTarget, TrSalesTargetDt };

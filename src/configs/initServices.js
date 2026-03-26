@@ -337,6 +337,7 @@ import FixedAssetService from '../services/ms/FixedAssetService.js';
 import FixedAssetGroupService from '../services/ms/FixedAssetGroupService.js';
 import FixedAssetCategoryService from '../services/ms/FixedAssetCategoryService.js';
 import BuyingPriceListService from '../services/tr/buying-price/BuyingPriceListService.js';
+import TrSalesTargetService from '../services/tr/sales-target/TrSalesTargetService.js';
 
 const initServices = () => {
   return {
@@ -450,7 +451,7 @@ const initServices = () => {
     trSafetyStockService: new StandardService(TrSafetyStock),
     trSalesmanTargetService: new StandardService(TrSalesmanTarget),
     trSalesmanTargetDtService: new StandardService(TrSalesmanTargetDt),
-    trSalesTargetService: new StandardService(TrSalesTarget),
+    trSalesTargetService: new TrSalesTargetService(TrSalesTarget),
     trSalesTargetDtService: new StandardService(TrSalesTargetDt),
     userService: new StandardService(User),
     userAksesCompanyService: new StandardService(UserAksesCompany),

@@ -33,11 +33,9 @@ TrSalesmanTargetDt.init(
     },
     { withCreate: true, withModify: true, withDbId: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'tr_salesman_target_dt',
-    'TrSalesmanTargetDt',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('tr_salesman_target_dt', 'TrSalesmanTargetDt', sequelize)
 );
+
+TrSalesmanTarget.hasMany(TrSalesmanTargetDt, { foreignKey: 'salesmanTargetId' });
 
 export { TrSalesmanTarget, TrSalesmanTargetDt };
