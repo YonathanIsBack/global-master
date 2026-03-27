@@ -1,5 +1,9 @@
+import { StatusCodes } from 'http-status-codes';
 import { BackDatedDto, BackDatedLogsDto, BackDatedUserDto } from '../dto/BackdatedDto.js';
+import { BackDatedUser } from '../models/Backdated.js';
+import ObjectUtil from '../util/ObjectUtil.js';
 import StandardController from './StandardController.js';
+import buildResponse from '../util/buildResponse.js';
 
 class BackdatedController extends StandardController {
   constructor(backdatedService) {
@@ -28,6 +32,68 @@ class BackdatedController extends StandardController {
     const backdatedDto = new BackDatedDto(body);
 
     return await super.delete(request, response, backdatedDto);
+  }
+  
+  async getAllDataAPI(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = { [primaryKey]: requestBody.where_in };
+    const include = [
+      {
+        model: BackDatedUser,
+        required: false
+      }
+    ];
+
+    const datas = await this.service.getAll({ whereClause, limit: requestBody.where_in.length, include, raw: false, nest: true });
+    console.log(datas);
+
+    const payload = {
+      result: datas.map((data) => {
+        return {
+          ...ObjectUtil.toSnakeCase(data.get({ plain: true })),
+          st_backdated_user:
+            data.get({ plain: true }).BackDatedUsers == null
+              ? []
+              : data.get({ plain: true }).BackDatedUsers.map((backDatedUser) => ({
+                  ...ObjectUtil.toSnakeCase(backDatedUser)
+                }))
+        };
+      }),
+      total_rows: datas.length
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
+  }
+
+  async getDataApi(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.id
+    };
+    const include = [
+      {
+        model: BackDatedUser,
+        required: false
+      }
+    ];
+
+    const data = await this.service.getOne({ whereClause, include });
+    let payload = {};
+
+    if (data != null) {
+      const plainData = data.get({ plain: true });
+      const BackDatedUsers = plainData.BackDatedUsers.map((BackDatedUser) =>
+        ObjectUtil.toSnakeCase(BackDatedUser)
+      );
+      delete plainData.BackDatedUsers;
+
+      Object.assign(payload, ObjectUtil.toSnakeCase(plainData));
+      payload.st_backdated_user = BackDatedUsers;
+    }
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', ObjectUtil.toSnakeCase(payload)));
   }
 }
 

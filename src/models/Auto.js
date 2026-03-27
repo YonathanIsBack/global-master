@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import { Coa } from './Coa.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
 class AutoCode extends StandardModel {}
@@ -47,5 +48,7 @@ AutoJurnal.init(
   ),
   StandardModel.buildStandardModelInformation('ms_auto_jurnal', 'AutoJurnal', sequelize)
 );
+
+AutoJurnal.hasOne(Coa, { foreignKey: 'coaId' });
 
 export { AutoCode, AutoCodeCount, AutoJurnal };

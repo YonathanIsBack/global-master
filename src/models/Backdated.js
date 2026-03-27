@@ -49,4 +49,6 @@ BackDatedUser.init(
   StandardModel.buildStandardModelInformation('st_backdated_user', 'BackDatedUser', sequelize)
 );
 
+BackDated.hasMany(BackDatedUser, { foreignKey: 'backdatedId' });
+
 export { BackDated, BackDatedLogs, BackDatedUser };

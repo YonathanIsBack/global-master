@@ -10,6 +10,12 @@ const backdatedRoute = (controllers) => {
   router.post(Endpoint.SAVE, validate(apiValidator(backdatedController.service.model)), backdatedController.create);
   router.post(Endpoint.UPDATE_STATUS, validate(apiValidator(backdatedController.service.model)), backdatedController.create);
   router.post(Endpoint.RESTORE, validate(apiValidator(backdatedController.service.model)), backdatedController.create);
+  
+  router.post('/count_all', backdatedController.count);
+  router.post('/get_all_data_back_dated_ajax', backdatedController.getAll);
+  router.post('/get_all_data_api', backdatedController.getAllDataAPI);
+  router.post('/get_data_api', backdatedController.getDataApi);
+
   return router;
 };
 

@@ -46,7 +46,6 @@ class StCurrencyRateController extends StandardController {
     ];
 
     const datas = await this.service.getAll({ whereClause, limit: requestBody.where_in.length, include, raw: false, nest: true });
-    console.log(datas);
 
     const payload = {
       result: datas.map((data) => {
