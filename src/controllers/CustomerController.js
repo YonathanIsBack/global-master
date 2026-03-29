@@ -18,6 +18,9 @@ import {
 import StandardController from './StandardController.js';
 import buildResponse from '../util/buildResponse.js';
 import ObjectUtil from '../util/ObjectUtil.js';
+import { Country } from '../models/Country.js';
+import Province from '../models/Province.js';
+import { CustomerBilling, CustomerContact, CustomerDelivery, CustomerSales, CustomerTax } from '../models/Customer.js';
 
 class CustomerController extends StandardController {
   constructor(customerService) {
@@ -59,19 +62,191 @@ class CustomerController extends StandardController {
   async getAll(request, response) {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
-    const customerClassClause = request.originalUrl.includes('individu') ? { customerClass: 1 } : { customerClass: 2 };
+    const include = [
+      {
+        model: Country,
+        required: false
+      },
+      {
+        model: Province,
+        required: false
+      }
+    ];
     const data = await this.service.getAll({
-      whereClause: { ...searchClause, ...customerClassClause },
+      whereClause: { ...searchClause, customerClass: '2' },
       limit: requestBody.length,
       offset: requestBody.start,
       orderIndex: requestBody.order[0].column,
-      orderDirection: requestBody.order[0].dir
+      orderDirection: requestBody.order[0].dir,
+      include,
+      nest: true,
+      raw: false
     });
     const totalRows = await this.service.count({ whereClause: searchClause });
 
     const payload = {
-      result: data.map((currency) => ObjectUtil.toSnakeCase(currency)),
+      result: data.map((data) => {
+        const plainData = data.get({ plain: true });
+
+        const country = ObjectUtil.toSnakeCase(plainData.Country);
+        const province = ObjectUtil.toSnakeCase(plainData.Province);
+        delete plainData.Country;
+        delete plainData.Province;
+
+        return {
+          ...ObjectUtil.toSnakeCase(plainData),
+          ms_country: country,
+          ms_province: province
+        };
+      }),
       total_rows: totalRows
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
+  }
+
+  async getAllDataAPI(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.where_in,
+      customerClass: '2'
+    };
+    const include = [
+      {
+        model: Country,
+        required: false
+      },
+      {
+        model: Country,
+        required: false,
+        as: 'Country2'
+      },
+      {
+        model: Province,
+        required: false
+      },
+      { model: CustomerContact, required: false },
+      { model: CustomerBilling, required: false },
+      { model: CustomerTax, required: false },
+      { model: CustomerDelivery, required: false },
+      { model: CustomerSales, required: false }
+    ];
+
+    const datas = await this.service.getAll({
+      whereClause,
+      limit: requestBody.where_in.length,
+      include,
+      nest: true,
+      raw: false
+    });
+
+    const payload = {
+      result: datas.map((data) => {
+        const plainData = data.get({ plain: true });
+
+        const country = ObjectUtil.toSnakeCase(plainData.Country);
+        const province = ObjectUtil.toSnakeCase(plainData.Province);
+        const country2 = ObjectUtil.toSnakeCase(plainData.Country2);
+        const province2 = ObjectUtil.toSnakeCase(plainData.Province2);
+        const customerContact = ObjectUtil.toSnakeCase(plainData.CustomerContact);
+        const customerBilling = ObjectUtil.toSnakeCase(plainData.CustomerBilling);
+        const customerTax = ObjectUtil.toSnakeCase(plainData.CustomerTax);
+        const customerDelivery = ObjectUtil.toSnakeCase(plainData.CustomerDelivery);
+        const customerSales = ObjectUtil.toSnakeCase(plainData.CustomerSales);
+        delete data.Country;
+        delete data.Province;
+        delete data.country_2;
+        delete data.province2;
+        delete data.CustomerContact;
+        delete data.CustomerBilling;
+        delete data.CustomerTax;
+        delete data.CustomerDelivery;
+        delete data.CustomerSales;
+
+        return {
+          ...ObjectUtil.toSnakeCase(plainData),
+          ms_country: country,
+          ms_province: province,
+          ms_country_2: country2,
+          ms_province_2: province2,
+          ms_customer_contact: customerContact,
+          ms_customer_billing: customerBilling,
+          ms_customer_tax: customerTax,
+          ms_customer_delivery: customerDelivery,
+          ms_customer_sales: customerSales
+        };
+      }),
+      total_rows: datas.length
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
+  }
+
+  async getDataApi(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.id
+    };
+    const include = [
+      {
+        model: Country,
+        required: false
+      },
+      {
+        model: Country,
+        required: false,
+        as: 'Country2'
+      },
+      {
+        model: Province,
+        required: false
+      },
+      { model: CustomerContact, required: false },
+      { model: CustomerBilling, required: false },
+      { model: CustomerTax, required: false },
+      { model: CustomerDelivery, required: false },
+      { model: CustomerSales, required: false }
+    ];
+
+    const data = await this.service.getOne({ whereClause, include, nest: true, raw: false });
+
+    if (data == null) {
+      return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', null));
+    }
+    const plainData = data.get({ plain: true });
+
+    const country = ObjectUtil.toSnakeCase(plainData.Country);
+    const province = ObjectUtil.toSnakeCase(plainData.Province);
+    const country2 = ObjectUtil.toSnakeCase(plainData.Country2);
+    const province2 = ObjectUtil.toSnakeCase(plainData.Province2);
+    const customerContact = ObjectUtil.toSnakeCase(plainData.CustomerContact);
+    const customerBilling = ObjectUtil.toSnakeCase(plainData.CustomerBilling);
+    const customerTax = ObjectUtil.toSnakeCase(plainData.CustomerTax);
+    const customerDelivery = ObjectUtil.toSnakeCase(plainData.CustomerDelivery);
+    const customerSales = ObjectUtil.toSnakeCase(plainData.CustomerSales);
+    delete data.Country;
+    delete data.Province;
+    delete data.country_2;
+    delete data.province2;
+    delete data.CustomerContact;
+    delete data.CustomerBilling;
+    delete data.CustomerTax;
+    delete data.CustomerDelivery;
+    delete data.CustomerSales;
+
+    const payload = {
+      ...ObjectUtil.toSnakeCase(plainData),
+      ms_country: country,
+      ms_province: province,
+      ms_country_2: country2,
+      ms_province_2: province2,
+      ms_customer_contact: customerContact,
+      ms_customer_billing: customerBilling,
+      ms_customer_tax: customerTax,
+      ms_customer_delivery: customerDelivery,
+      ms_customer_sales: customerSales
     };
 
     return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));

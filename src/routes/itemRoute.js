@@ -7,6 +7,7 @@ const itemRoute = (controllers) => {
   router.post('/count_all', itemController.count);
   router.post('/get_all_data_item_ajax', itemController.getAll);
   router.post('/get_all_data_api', itemController.getAllDataAPI);
+  router.post("/get_data_api", itemController.getDataApi);
 
   return router;
 };

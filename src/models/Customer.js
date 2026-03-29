@@ -333,7 +333,21 @@ CustomerType.init(
 );
 
 Customer.hasOne(Country, { sourceKey: 'customerCountryId', foreignKey: 'country_id' });
+Customer.hasOne(Country, { sourceKey: 'customerCountryId2', foreignKey: 'country_id', as: 'Country2' });
 Customer.hasOne(Province, { sourceKey: 'customerProvinceId', foreignKey: 'province_id' });
+Customer.hasOne(Province, { sourceKey: 'customerProvinceId2', foreignKey: 'province_id', as: 'Province2' });
+
+CustomerContact.hasOne(Customer, { foreignKey: 'customerId' });
+CustomerBilling.hasOne(Customer, { foreignKey: 'customerId' });
+CustomerTax.hasOne(Customer, { foreignKey: 'customerId' });
+CustomerDelivery.hasOne(Customer, { foreignKey: 'customerId' });
+CustomerSales.hasOne(Customer, { foreignKey: 'customerId' });
+
+Customer.belongsTo(CustomerContact, { foreignKey: 'customerId' });
+Customer.belongsTo(CustomerBilling, { foreignKey: 'customerId' });
+Customer.belongsTo(CustomerTax, { foreignKey: 'customerId' });
+Customer.belongsTo(CustomerDelivery, { foreignKey: 'customerId' });
+Customer.belongsTo(CustomerSales, { foreignKey: 'customerId' });
 
 export {
   Customer,

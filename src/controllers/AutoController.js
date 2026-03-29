@@ -94,6 +94,7 @@ class AutoJurnalController extends StandardController {
 
     return await super.delete(request, response, autoJurnalDto);
   }
+  
   async getAll(request, response) {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);

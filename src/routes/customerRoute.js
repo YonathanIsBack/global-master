@@ -8,7 +8,7 @@ const customerRoute = (controllers) => {
   router.post('/get_all_data_customer_individu_ajax', customerController.getAll);
   router.post('/get_all_data_customer_company_ajax', customerController.getAll);
   router.post('/get_all_data_api', customerController.getAllDataAPI);
-  router.post('/get_data_api', customerController.getAllDataAPI);
+  router.post('/get_data_api', customerController.getDataApi);
 
   return router;
 };

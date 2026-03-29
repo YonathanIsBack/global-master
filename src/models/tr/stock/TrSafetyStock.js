@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../../../configs/DatabaseConnection.js';
 import StandardModel from '../../StandardModel.js';
+import { Item } from '../../Item.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
 class TrSafetyStock extends StandardModel {}
@@ -17,5 +18,7 @@ TrSafetyStock.init(
   ),
   StandardModel.buildStandardModelInformation('tr_safety_stock', 'TrSafetyStock', sequelize)
 );
+
+TrSafetyStock.hasOne(Item, { foreignKey: 'itemId' });
 
 export default TrSafetyStock;

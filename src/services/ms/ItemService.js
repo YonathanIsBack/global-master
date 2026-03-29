@@ -58,48 +58,4 @@ export default class ItemService extends StandardService {
       ]
     });
   }
-
-  async getAll(params) {
-    const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection } = params;
-
-    const results = await this.model.findAll({
-      where: whereClause,
-      raw: true,
-      limit: Number(limit),
-      offset: Number(offset),
-      order: this.buildOrderClause(orderIndex, orderDirection),
-      include: [
-        {
-          model: ItemCategory,
-          required: false
-        },
-        {
-          model: ItemCategory,
-          required: false,
-          as: 'ItemCategorySub'
-        },
-        {
-          model: Brand,
-          required: false
-        },
-        {
-          model: ItemType,
-          required: false
-        },
-        {
-          model: ItemUom,
-          required: false
-        }
-      ]
-    });
-
-    return results.map((result) => ({
-      ...result,
-      itemCategoryName: result['ItemCategory.itemCategoryName'],
-      subCategory: result['ItemCategorySub.itemCategoryName'],
-      brandName: result['Brand.brandName'],
-      itemTypeName: result['ItemType.itemTypeName'],
-      itemUomName: result['ItemUom.itemUomName']
-    }));
-  }
 }

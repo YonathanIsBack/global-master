@@ -35,11 +35,9 @@ TrPurchaseTargetDt.init(
     },
     { withCreate: true, withModify: true, withDbId: true }
   ),
-  StandardModel.buildStandardModelInformation(
-    'tr_purchase_target_dt',
-    'TrPurchaseTargetDt',
-    sequelize
-  )
+  StandardModel.buildStandardModelInformation('tr_purchase_target_dt', 'TrPurchaseTargetDt', sequelize)
 );
+
+TrPurchaseTarget.hasMany(TrPurchaseTargetDt, { foreignKey: 'purchaseTargetId' });
 
 export { TrPurchaseTarget, TrPurchaseTargetDt };

@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import { CoaSubGroupDto, CoaTypeDto } from '../dto/CoaDto.js';
 import {
   ItemBuyingDto,
@@ -12,7 +13,11 @@ import {
   ItemTypeDto,
   ItemUomDto
 } from '../dto/ItemDto.js';
+import Brand from '../models/Brand.js';
+import { ItemCategory, ItemType, ItemUom } from '../models/Item.js';
 import StandardController from './StandardController.js';
+import buildResponse from '../util/buildResponse.js';
+import ObjectUtil from '../util/ObjectUtil.js';
 
 class ItemController extends StandardController {
   constructor(itemService) {
@@ -41,6 +46,198 @@ class ItemController extends StandardController {
     const itemDto = new ItemDto(body);
 
     return await super.delete(request, response, itemDto);
+  }
+
+  async getAll(request, response) {
+    const requestBody = request.body;
+    const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
+    const include = [
+      {
+        model: ItemCategory,
+        required: false
+      },
+      {
+        model: ItemCategory,
+        required: false,
+        as: 'ItemCategorySub'
+      },
+      {
+        model: Brand,
+        required: false
+      },
+      {
+        model: ItemType,
+        required: false
+      },
+      {
+        model: ItemUom,
+        required: false
+      }
+    ];
+    const data = await this.service.getAll({
+      whereClause: searchClause,
+      limit: requestBody.length,
+      offset: requestBody.start,
+      orderIndex: requestBody.order[0].column,
+      orderDirection: requestBody.order[0].dir,
+      include,
+      nest: true,
+      raw: false
+    });
+    const totalRows = await this.service.count({ whereClause: searchClause });
+
+    const payload = {
+      result: data.map((data) => {
+        const plainData = data.get({ plain: true });
+
+        const itemCategory = ObjectUtil.toSnakeCase(plainData.ItemCategory);
+        const itemCategorySub = ObjectUtil.toSnakeCase(plainData.ItemCategorySub);
+        const brand = ObjectUtil.toSnakeCase(plainData.Brand);
+        const itemType = ObjectUtil.toSnakeCase(plainData.ItemType);
+        const itemUom = ObjectUtil.toSnakeCase(plainData.ItemUom);
+        delete plainData.ItemCategory;
+        delete plainData.ItemCategorySub;
+        delete plainData.Brand;
+        delete plainData.ItemType;
+        delete plainData.ItemUom;
+
+        return {
+          ...ObjectUtil.toSnakeCase(plainData),
+          ms_item_category: itemCategory,
+          ms_item_sub_category: itemCategorySub,
+          ms_brand: brand,
+          ms_item_type: itemType,
+          ms_item_uom: itemUom,
+        };
+      }),
+      total_rows: totalRows
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
+  }
+
+  async getAllDataAPI(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.where_in
+    };
+    const include = [
+      {
+        model: ItemCategory,
+        required: false
+      },
+      {
+        model: ItemCategory,
+        required: false,
+        as: 'ItemCategorySub'
+      },
+      {
+        model: Brand,
+        required: false
+      },
+      {
+        model: ItemType,
+        required: false
+      },
+      {
+        model: ItemUom,
+        required: false
+      }
+    ];
+
+    const datas = await this.service.getAll({
+      whereClause,
+      limit: requestBody.where_in.length,
+      include,
+      nest: true,
+      raw: false
+    });
+
+    const payload = {
+      result: datas.map((data) => {
+        const plainData = data.get({ plain: true });
+
+        const itemCategory = ObjectUtil.toSnakeCase(plainData.ItemCategory);
+        const itemCategorySub = ObjectUtil.toSnakeCase(plainData.ItemCategorySub);
+        const brand = ObjectUtil.toSnakeCase(plainData.Brand);
+        const itemType = ObjectUtil.toSnakeCase(plainData.ItemType);
+        const itemUom = ObjectUtil.toSnakeCase(plainData.ItemUom);
+        delete plainData.ItemCategory;
+        delete plainData.ItemCategorySub;
+        delete plainData.Brand;
+        delete plainData.ItemType;
+        delete plainData.ItemUom;
+
+        return {
+          ...ObjectUtil.toSnakeCase(plainData),
+          ms_item_category: itemCategory,
+          ms_item_sub_category: itemCategorySub,
+          ms_brand: brand,
+          ms_item_type: itemType,
+          ms_item_uom: itemUom,
+        };
+      }),
+      total_rows: datas.length
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
+  }
+
+  async getDataApi(request, response) {
+    const requestBody = request.body;
+    const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const whereClause = {
+      [primaryKey]: requestBody.id
+    };
+    const include = [
+      {
+        model: ItemCategory,
+        required: false
+      },
+      {
+        model: Brand,
+        required: false
+      },
+      {
+        model: ItemType,
+        required: false
+      },
+      {
+        model: ItemUom,
+        required: false
+      },
+      {
+        model: ItemCategory,
+        required: false
+      }
+    ];
+
+    const data = await this.service.getOne({ whereClause, include, nest: true, raw: false });
+    
+    if (data == null) {
+      return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', null));
+    }
+    const plainData = data.get({ plain: true });
+
+    const itemCategory = ObjectUtil.toSnakeCase(plainData.ItemCategory);
+    const brand = ObjectUtil.toSnakeCase(plainData.Brand);
+    const itemType = ObjectUtil.toSnakeCase(plainData.ItemType);
+    const itemUom = ObjectUtil.toSnakeCase(plainData.ItemUom);
+    delete data.ItemCategory;
+    delete data.Brand;
+    delete data.ItemType;
+    delete data.ItemUom;
+
+    const payload = {
+      ...ObjectUtil.toSnakeCase(plainData),
+      itemCategory,
+      brand,
+      itemType,
+      itemUom
+    };
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
   }
 }
 
