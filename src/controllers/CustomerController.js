@@ -21,6 +21,7 @@ import ObjectUtil from '../util/ObjectUtil.js';
 import { Country } from '../models/Country.js';
 import Province from '../models/Province.js';
 import { CustomerBilling, CustomerContact, CustomerDelivery, CustomerSales, CustomerTax } from '../models/Customer.js';
+import Endpoint from '../constants/Endpoint.js';
 
 class CustomerController extends StandardController {
   constructor(customerService) {
@@ -53,8 +54,8 @@ class CustomerController extends StandardController {
   }
 
   async count(request, response) {
-    const customerClassClause = request.originalUrl.includes('individu') ? { customerClass: 1 } : { customerClass: 2 };
-    const totalRows = await this.service.count({ whereClause: { ...customerClassClause } });
+    const customerClass = request.originalUrl.includes(Endpoint.CUSTOMER_PERSONAL) ? '2' : '1';
+    const totalRows = await this.service.count({ whereClause: { customerClass} });
 
     return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', totalRows));
   }
@@ -62,6 +63,7 @@ class CustomerController extends StandardController {
   async getAll(request, response) {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
+    const customerClass = request.originalUrl.includes(Endpoint.CUSTOMER_PERSONAL) ? '2' : '1';
     const include = [
       {
         model: Country,
@@ -70,10 +72,15 @@ class CustomerController extends StandardController {
       {
         model: Province,
         required: false
-      }
+      },
+      { model: CustomerContact, required: false },
+      { model: CustomerBilling, required: false },
+      { model: CustomerTax, required: false },
+      { model: CustomerDelivery, required: false },
+      { model: CustomerSales, required: false }
     ];
     const data = await this.service.getAll({
-      whereClause: { ...searchClause, customerClass: '2' },
+      whereClause: { ...searchClause, customerClass },
       limit: requestBody.length,
       offset: requestBody.start,
       orderIndex: requestBody.order[0].column,
@@ -108,9 +115,10 @@ class CustomerController extends StandardController {
   async getAllDataAPI(request, response) {
     const requestBody = request.body;
     const primaryKey = this.service.model.primaryKeyAttributes[0];
+    const customerClass = request.originalUrl.includes(Endpoint.CUSTOMER_PERSONAL) ? '2' : '1';
     const whereClause = {
       [primaryKey]: requestBody.where_in,
-      customerClass: '2'
+      customerClass
     };
     const include = [
       {
@@ -153,16 +161,16 @@ class CustomerController extends StandardController {
         const customerBilling = ObjectUtil.toSnakeCase(plainData.CustomerBilling);
         const customerTax = ObjectUtil.toSnakeCase(plainData.CustomerTax);
         const customerDelivery = ObjectUtil.toSnakeCase(plainData.CustomerDelivery);
-        const customerSales = ObjectUtil.toSnakeCase(plainData.CustomerSales);
-        delete data.Country;
-        delete data.Province;
-        delete data.country_2;
-        delete data.province2;
-        delete data.CustomerContact;
-        delete data.CustomerBilling;
-        delete data.CustomerTax;
-        delete data.CustomerDelivery;
-        delete data.CustomerSales;
+        const customerSales = ObjectUtil.toSnakeCase(plainData.CustomerSale);
+        delete plainData.Country;
+        delete plainData.Province;
+        delete plainData.Country2;
+        delete plainData.Province2;
+        delete plainData.CustomerContact;
+        delete plainData.CustomerBilling;
+        delete plainData.CustomerTax;
+        delete plainData.CustomerDelivery;
+        delete plainData.CustomerSale;
 
         return {
           ...ObjectUtil.toSnakeCase(plainData),
@@ -225,16 +233,16 @@ class CustomerController extends StandardController {
     const customerBilling = ObjectUtil.toSnakeCase(plainData.CustomerBilling);
     const customerTax = ObjectUtil.toSnakeCase(plainData.CustomerTax);
     const customerDelivery = ObjectUtil.toSnakeCase(plainData.CustomerDelivery);
-    const customerSales = ObjectUtil.toSnakeCase(plainData.CustomerSales);
-    delete data.Country;
-    delete data.Province;
-    delete data.country_2;
-    delete data.province2;
-    delete data.CustomerContact;
-    delete data.CustomerBilling;
-    delete data.CustomerTax;
-    delete data.CustomerDelivery;
-    delete data.CustomerSales;
+    const customerSales = ObjectUtil.toSnakeCase(plainData.CustomerSale);
+    delete plainData.Country;
+    delete plainData.Province;
+    delete plainData.Country2;
+    delete plainData.Province2;
+    delete plainData.CustomerContact;
+    delete plainData.CustomerBilling;
+    delete plainData.CustomerTax;
+    delete plainData.CustomerDelivery;
+    delete plainData.CustomerSale;
 
     const payload = {
       ...ObjectUtil.toSnakeCase(plainData),
