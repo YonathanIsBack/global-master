@@ -22,6 +22,13 @@ class LoginController {
 
   async register(request, response) {
     const { body } = request;
+
+    if (!this.#isRegisterAuthenticationKeyValid(body.register_authentication_key)) {
+      return response
+        .status(StatusCodes.FORBIDDEN)
+        .json(buildResponse(StatusCodes.FORBIDDEN, 'Register Authentication Key not valid'));
+    }
+
     const user = await this.#loginService.register(body);
     delete user.apiPassword;
 
@@ -29,6 +36,10 @@ class LoginController {
       ...buildResponse(StatusCodes.CREATED, Constant.REGISTERED, { user }),
       access_token: user.token
     });
+  }
+
+  #isRegisterAuthenticationKeyValid(registerAuthenticationKey) {
+    return registerAuthenticationKey === Constant.REGISTER_AUTHENTICATION_KEY;
   }
 }
 

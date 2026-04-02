@@ -18,7 +18,8 @@ const loginRoute = () => {
     validate({
       body: Joi.object({
         username: Joi.string().required(),
-        password: Joi.string().required()
+        password: Joi.string().required(),
+        register_authentication_key: Joi.string().required()
       })
     }),
     loginController.register

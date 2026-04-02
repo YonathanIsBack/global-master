@@ -33,6 +33,7 @@ const Constant = {
   STOCK_IN: '1',
   STOCK_OUT: '0',
   DATABASE_TIMEZONE: process.env.TIMEZONE,
+  REGISTER_AUTHENTICATION_KEY: process.env.REGISTER_AUTHENTICATION_KEY
 };
 
 export default Constant;
