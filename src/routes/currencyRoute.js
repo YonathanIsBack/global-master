@@ -11,6 +11,7 @@ const currencyRoute = (controllers) => {
 
     router.post(Endpoint.SAVE, validate(apiValidator(currencyController.service.model)), currencyController.create);
     router.post("/count_all_currency", currencyController.count);
+    router.post("/count_all", currencyController.count);
     router.post("/get_all_data_currency_ajax", currencyController.getAll);
     router.post("/get_all_data_api", currencyController.getAllDataAPI);
     
