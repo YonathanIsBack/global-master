@@ -14,6 +14,7 @@ import {
 } from '../dto/SupplierDto.js';
 import StandardController from './StandardController.js';
 import buildResponse from '../util/buildResponse.js';
+import ObjectUtil from '../util/ObjectUtil.js';
 
 class SupplierController extends StandardController {
   constructor(supplierService) {
@@ -54,12 +55,7 @@ class SupplierController extends StandardController {
 
     const data = await this.service.getDataApi({ whereClause, limit: requestBody.where_in.length });
 
-    const responseBody = {
-      valid: true,
-      res: data
-    };
-
-    return response.status(StatusCodes.OK).json(responseBody);
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', ObjectUtil.toSnakeCase(data)));
   }
 }
 

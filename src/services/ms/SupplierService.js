@@ -1,4 +1,5 @@
 import { Supplier, SupplierContact, SupplierPayment, SupplierPurchase, SupplierTax } from '../../models/Supplier.js';
+import ObjectUtil from '../../util/ObjectUtil.js';
 import StandardService from '../StandardService.js';
 
 class SupplierService extends StandardService {
@@ -47,8 +48,6 @@ class SupplierService extends StandardService {
   async getDataApi(params) {
     const { whereClause, limit = 1, offset = 0, orderIndex, orderDirection } = params;
 
-    Supplier.findAll({})
-
     const supplier =  await this.model.findAll({
       where: whereClause,
       raw: true,
@@ -76,12 +75,22 @@ class SupplierService extends StandardService {
       ]
     });
 
+    const foundSupplier = supplier[0];
+    const contact = foundSupplier.SupplierContact;
+    const payment = foundSupplier.SupplierPayment;
+    const tax = foundSupplier.SupplierTax;
+    const purchase = foundSupplier.SupplierPurchase;
+    delete foundSupplier.SupplierContact;
+    delete foundSupplier.SupplierPayment;
+    delete foundSupplier.SupplierTax;
+    delete foundSupplier.SupplierPurchase;
+
     return {
-      general: supplier,
-      contact: supplier.SupplierContact,
-      payment: supplier.SupplierPayment,
-      tax: supplier.SupplierTax,
-      purchase: supplier.SupplierPurchase,
+      general: ObjectUtil.toSnakeCase(foundSupplier),
+      contact: ObjectUtil.toSnakeCase(contact),
+      payment: ObjectUtil.toSnakeCase(payment),
+      tax: ObjectUtil.toSnakeCase(tax),
+      purchase: ObjectUtil.toSnakeCase(purchase),
     };
   }
 }
