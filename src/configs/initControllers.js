@@ -39,6 +39,7 @@ import {
   FixedAssetGroupController,
   FixedDepreciationController
 } from '../controllers/FixedAssetController.js';
+import GlobalReportController from '../controllers/GlobalReportController.js';
 import ImportDataController from '../controllers/ImportDataController.js';
 import {
   ItemBuyingController,
@@ -432,7 +433,8 @@ const initControllers = (services) => {
     offshoreSalesInvoiceController: new OffshoreSalesInvoiceController(services.offshoreSalesInvoiceService),
     offshoreSalesPaymentController: new OffshoreSalesPaymentController(services.offshoreSalesPaymentService),
     monitorApiController: new MonitorApiController(),
-    importDataController: new ImportDataController(services.importDataService)
+    importDataController: new ImportDataController(services.importDataService),
+    globalReportController: new GlobalReportController()
   };
 };
 

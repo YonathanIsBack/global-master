@@ -236,6 +236,7 @@ const Endpoint = {
   CHAT: '/chat',
   NOTIFICATION_HEALTH: '/notification-health',
   IMPORT_DATA: '/import-data',
+  FETCH_REPORT: '/fetch-report',
   RESTORE: '/restore',
   REGISTER: '/register',
   V1: '/v1',

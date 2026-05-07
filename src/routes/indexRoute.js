@@ -187,6 +187,7 @@ import offshoreSalesPaymentRoute from './tr/offshore/offshoreSalesPaymentRoute.j
 import whitelistMiddleware from '../middleware/whitelistMiddleware.js';
 import monitorApiRoute from './monitorApiRoute.js';
 import importDataRoute from './importDataRoute.js';
+import fetchReportRoute from './fetchReportRoute.js';
 
 const createMasterRoute = (app) => {
   const router = Router();
@@ -654,6 +655,7 @@ const route = (app) => {
   router.use(Endpoint.SYSTEM + Endpoint.PAGE_MENU_TERBUKA, pageMenuTerbukaRoute(controllers));
 
   router.use(Endpoint.V1 + Endpoint.IMPORT_DATA, importDataRoute(controllers));
+  router.use(Endpoint.V1 + Endpoint.FETCH_REPORT, fetchReportRoute(controllers));
 
   router.use(Endpoint.LOGIN, loginRoute(app));
   router.use(monitorApiRoute(controllers));
