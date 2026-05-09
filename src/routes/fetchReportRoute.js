@@ -7,6 +7,7 @@ const fetchReportRoute = (controllers) => {
   const { globalReportController } = controllers;
 
   router.post(Endpoint.EMPTY, globalReportController.fetchReport);
+  router.post('/login-cookie', globalReportController.loginCookie);
 
   return router;
 };
