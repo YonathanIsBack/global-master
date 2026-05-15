@@ -80,6 +80,7 @@ class SalesPriceController extends StandardController {
     const datas = await this.service.getAll({ whereClause, include });
 
     let payload = {};
+    console.log(datas);
     if (datas.length != 0) {
       payload = {
         ...ObjectUtil.toSnakeCase(datas[0]),

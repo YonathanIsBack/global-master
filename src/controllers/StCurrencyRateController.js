@@ -89,7 +89,7 @@ class StCurrencyRateController extends StandardController {
       delete plainData.StCurrencyRateDetails;
 
       Object.assign(payload, ObjectUtil.toSnakeCase(plainData));
-      payload.tr_salesman_target_dt = StCurrencyRateDetails;
+      payload.st_currency_rate_dt = StCurrencyRateDetails;
     }
 
     return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', ObjectUtil.toSnakeCase(payload)));

@@ -77,9 +77,21 @@ class BuyingPriceListController extends StandardController {
       }
     ];
 
-    const datas = await this.service.getAll({ whereClause, include });
+    const data = await this.service.getAll({ whereClause, include });
 
-    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', ObjectUtil.toSnakeCase(datas[0])));
+    if(data[0] == null) {
+      return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', {}));
+    }
+
+    const foundData = data[0]; 
+    const buyingPriceListDt = foundData.BuyingPriceListDetails.map(detail => ObjectUtil.toSnakeCase(detail));
+    delete foundData.BuyingPriceListDetails;
+    const formattedData = {
+      ...ObjectUtil.toSnakeCase(foundData),
+      tr_purchase_price_dt: buyingPriceListDt
+    }
+
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', formattedData));
   }
 }
 
