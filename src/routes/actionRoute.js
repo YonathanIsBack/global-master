@@ -11,6 +11,11 @@ const actionRoute = (controllers) => {
     router.post(Endpoint.SAVE, validate(apiValidator(actionController.service.model)), actionController.create);
     router.post(Endpoint.DELETE, actionController.delete);
     router.post(Endpoint.RESTORE, actionController.restore);
+    
+    router.post("/count_all", actionController.count);
+    router.post("/get_all_data_action_ajax", actionController.getAll);
+    router.post("/get_all_data_api", actionController.getAllDataAPI);
+
     return router;
 }
 const actionPageRoute = (controllers) => createStandardRoute(controllers.actionPageController);
