@@ -51,10 +51,15 @@ class GlobalReportController {
     )
       .then((response) => response.json())
       .then((data) => {
-        const html = cheerio.load(data.html);
-        console.log(html.html())
+        const $ = cheerio.load(data.html);
+        const table = $('table');
+        const thead = table.find('thead');
+        const titles = [];
+        thead.find('tr').children().each((_, element) => {
+          titles.push($(element).text());
+        });
 
-        return response.status(StatusCodes.OK).json({ html: html.html() });
+        return response.status(StatusCodes.OK).json({ titles });
       });
 
     return response.status(StatusCodes.OK).json();
