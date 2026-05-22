@@ -52,14 +52,29 @@ class GlobalReportController {
       .then((response) => response.json())
       .then((data) => {
         const $ = cheerio.load(data.html);
-        const table = $('table');
+        const table = $('#myTable');
         const thead = table.find('thead');
         const titles = [];
-        thead.find('tr').children().each((_, element) => {
-          titles.push($(element).text());
+        thead
+          .find('tr')
+          .children()
+          .each((_, element) => {
+            titles.push($(element).text());
+          });
+        const tables = [];
+        const tbodys = table.find('tbody');
+        tbodys.each((_, tbody) => {
+          console.log('tbody', $(tbody).html());
+          $(tbody).children().each((_, tr) => {
+            const rowdata = {};
+            $(tr).children().each((index, td) => {
+              rowdata[titles[index]] = $(td).html();
+            });
+            tables.push(rowdata);
+          });
         });
 
-        return response.status(StatusCodes.OK).json({ titles });
+        return response.status(StatusCodes.OK).json({ titles, tables });
       });
 
     return response.status(StatusCodes.OK).json();
