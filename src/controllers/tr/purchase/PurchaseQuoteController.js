@@ -205,10 +205,7 @@ class PurchaseQuoteRequestController extends StandardController {
 }
 
 export {
-  PurchaseQuoteController,
-  PurchaseQuoteAdvanceController,
-  PurchaseQuoteItemDtController,
-  PurchaseQuoteImgController,
-  PurchaseQuoteRejectController,
+  PurchaseQuoteAdvanceController, PurchaseQuoteController, PurchaseQuoteImgController, PurchaseQuoteItemDtController, PurchaseQuoteRejectController,
   PurchaseQuoteRequestController
 };
+
