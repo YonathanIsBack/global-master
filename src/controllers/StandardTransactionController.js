@@ -57,12 +57,16 @@ class StandardTransactionController extends StandardController {
         const table = $('#myTable');
         const thead = table.find('thead');
         const titles = [];
+        const trIndex = body.selGroupBy == 3 ? 0 : 1;
+        console.log('trIndex ', trIndex);
+
         thead
-          .find('tr')
+          .find(`tr:eq(${trIndex})`)
           .children()
           .each((_, element) => {
             titles.push($(element).text());
           });
+
         const tables = [];
         const tbodys = table.find('tbody');
         tbodys.each((_, tbody) => {
