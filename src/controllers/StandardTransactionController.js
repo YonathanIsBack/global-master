@@ -4,6 +4,8 @@ import fetch from 'node-fetch';
 import Constant from '../constants/Constant.js';
 import buildResponse from '../util/buildResponse.js';
 import StandardController from './StandardController.js';
+import LoggerUtilSingleton from '../util/LoggerUtils.js';
+import LogEvent from '../constants/LogEvent.js';
 
 class StandardTransactionController extends StandardController {
   #companyCookie;
@@ -35,12 +37,7 @@ class StandardTransactionController extends StandardController {
     const { body } = request;
 
     await this.#loginCompany();
-
-    const reportParams = new URLSearchParams();
-    const keys = Object.keys(body);
-    keys.forEach((key) => {
-      reportParams.set(key, body[key]);
-    });
+    const reportParams = this.#buildReportFormParam(body);
 
     return await fetch(`${Constant.COMPANY_BASE_URL}${this.getReportEndpoint}`, {
       method: 'POST',
@@ -50,50 +47,94 @@ class StandardTransactionController extends StandardController {
       .then((response) => response.json())
       .then((data) => {
         const $ = cheerio.load(data.html);
-        const table = $('#myTable');
-        const thead = table.find('thead');
-        const titles = [];
-        const trIndex = body.selGroupBy == 3 ? 0 : 1;
-        console.log('trIndex ', trIndex);
 
-        thead
-          .find(`tr:eq(${trIndex})`)
-          .children()
-          .each((_, element) => {
-            titles.push($(element).text());
-          });
+        if (body.selGroupBy != 3) {
+          return response.status(StatusCodes.OK).json(this.#handleGroupedReport($));
+        }
 
-        const tables = [];
-        const tbodys = table.find('tbody');
-        tbodys.each((_, tbody) => {
-          console.log('tbody', $(tbody).html());
-          $(tbody)
-            .children()
-            .each((_, tr) => {
-              const rowdata = {};
-              $(tr)
-                .children()
-                .each((index, td) => {
-                  rowdata[titles[index]] = $(td).text().trim();
-                });
-              tables.push(rowdata);
-            });
-        });
-
-        return response.status(StatusCodes.OK).json({ titles, tables });
+        return response.status(StatusCodes.OK).json(this.#handleNonGroupedReport($));
       })
       .catch((err) => {
+        LoggerUtilSingleton.error(LogEvent.GLOBAL_REPORT, err);
         return response.status(StatusCodes.INTERNAL_SERVER_ERROR);
       });
   }
 
+  #handleGroupedReport($) {
+    const table = $('#myTable');
+    const titles = this.#getTitlesFromTableHeader($, table.find('thead'), false);
+
+    const tables = [];
+    const tableBodies = table.find('tbody');
+    tableBodies.each((_, tbody) => {
+      $(tbody)
+        .children()
+        .each((_, tr) => {
+          const rowdata = {};
+          $(tr)
+            .children()
+            .each((index, td) => {
+              rowdata[titles[index]] = $(td).text().trim();
+            });
+          tables.push(rowdata);
+        });
+    });
+
+    return { titles, tables };
+  }
+
+  #handleNonGroupedReport($) {
+    const table = $('#myTable');
+    const titles = this.#getTitlesFromTableHeader($, table.find('thead'), false);
+
+    const tables = [];
+    const tableBodies = table.find('tbody');
+    tableBodies.each((_, tbody) => {
+      $(tbody)
+        .children()
+        .each((_, tr) => {
+          const rowdata = {};
+          $(tr)
+            .children()
+            .each((index, td) => {
+              rowdata[titles[index]] = $(td).text().trim();
+            });
+          tables.push(rowdata);
+        });
+    });
+
+    return { titles, tables };
+  }
+
+  #getTitlesFromTableHeader($, tableHead, isGrouped) {
+    const titles = [];
+    tableHead
+      .find(`tr:eq(${isGrouped ? 1 : 0})`)
+      .children()
+      .each((_, element) => {
+        titles.push($(element).text());
+      });
+
+    return titles;
+  }
+
+  #buildReportFormParam(body) {
+    const reportParams = new URLSearchParams();
+    const keys = Object.keys(body);
+    keys.forEach((key) => {
+      reportParams.set(key, body[key]);
+    });
+
+    return reportParams;
+  }
+
   async #loginCompany() {
     const params = new URLSearchParams();
-    params.set('txtUsername', 'SKY');
-    params.set('txtPassword', 'Sky1234!');
+    params.set('txtUsername', Constant.COMPANY_TXT_USERNAME);
+    params.set('txtPassword', Constant.COMPANY_TXT_PASSWORD);
     params.set('isModal', '1');
 
-    const httpResponse = await fetch('http://192.168.1.100/pantjq/public/login/fvalidate', {
+    const httpResponse = await fetch(`${Constant.COMPANY_BASE_URL}login/fvalidate`, {
       method: 'POST',
       body: params,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }

@@ -10,6 +10,7 @@ const LogEvent = {
     NON_WHITELISTED_IP: 'NON WHITELISTED IP',
     MONITOR_API: 'MONITOR API',
     MIGRATION: 'MIGRATION',
+    GLOBAL_REPORT: 'GLOBAL REPORT',
 }
 
 export default LogEvent;
