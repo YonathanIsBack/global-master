@@ -7,6 +7,7 @@ import StandardController from './StandardController.js';
 
 class StandardTransactionController extends StandardController {
   #companyCookie;
+  getReportEndpoint = '';
   constructor(service) {
     super(service);
     this.changeStatus = this.changeStatus.bind(this);
@@ -31,22 +32,17 @@ class StandardTransactionController extends StandardController {
   }
 
   async getReport(request, response) {
-    // Ambil semua parameter dari url encoded
-    // Siapkan parameter ini untuk dikirim ke company
-    // Lakukan pengambilan report
-    // Bungkus pengambilan report dengan handling login
-    // Mapping data hasil pengambilan report ke json
     const { body } = request;
 
     await this.#loginCompany();
 
     const reportParams = new URLSearchParams();
     const keys = Object.keys(body);
-    keys.forEach(key => {
+    keys.forEach((key) => {
       reportParams.set(key, body[key]);
     });
 
-    return await fetch('http://192.168.1.100/pantjq/public/purchase/report/local/purchaseQuote/get_report_js', {
+    return await fetch(`${Constant.COMPANY_BASE_URL}${this.getReportEndpoint}`, {
       method: 'POST',
       body: reportParams,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', Cookie: this.#companyCookie }
@@ -78,18 +74,17 @@ class StandardTransactionController extends StandardController {
               $(tr)
                 .children()
                 .each((index, td) => {
-                  rowdata[titles[index]] = $(td).html();
+                  rowdata[titles[index]] = $(td).text().trim();
                 });
               tables.push(rowdata);
             });
         });
 
         return response.status(StatusCodes.OK).json({ titles, tables });
-      }).catch((err) => {
+      })
+      .catch((err) => {
         return response.status(StatusCodes.INTERNAL_SERVER_ERROR);
       });
-
-    return response.status(StatusCodes.OK).json(body);
   }
 
   async #loginCompany() {
