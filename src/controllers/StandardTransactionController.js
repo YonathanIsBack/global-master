@@ -62,25 +62,38 @@ class StandardTransactionController extends StandardController {
 
   #handleGroupedReport($) {
     const table = $('#myTable');
-    const titles = this.#getTitlesFromTableHeader($, table.find('thead'), false);
+    const titles = this.#getTitlesFromTableHeader($, table.find('thead'), true);
 
-    const tables = [];
-    const tableBodies = table.find('tbody');
-    tableBodies.each((_, tbody) => {
-      $(tbody)
-        .children()
-        .each((_, tr) => {
-          const rowdata = {};
-          $(tr)
-            .children()
-            .each((index, td) => {
-              rowdata[titles[index]] = $(td).text().trim();
-            });
-          tables.push(rowdata);
-        });
-    });
+    const rowDatas = [];
+    let temporaryObject = { groupName: '', rows: [] };
 
-    return { titles, tables };
+    $(table)
+      .children()
+      .each((index, row) => {
+        if ($(row).is('thead')) {
+          if (index != 0) {
+            rowDatas.push(temporaryObject);
+            temporaryObject = { groupName: '', rows: [] };
+          }
+
+          temporaryObject.groupName = $(row).find('tr').first().text().trim();
+          return;
+        }
+
+        $(row)
+          .children()
+          .each((_, tr) => {
+            const rowdata = {};
+            $(tr)
+              .children()
+              .each((index, td) => {
+                rowdata[titles[index]] = $(td).text().trim();
+              });
+            temporaryObject.rows.push(rowdata);
+          });
+      });
+    rowDatas.push(temporaryObject);
+    return { titles, tables: rowDatas };
   }
 
   #handleNonGroupedReport($) {
