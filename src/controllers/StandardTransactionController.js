@@ -67,10 +67,28 @@ class StandardTransactionController extends StandardController {
 
     const rowDatas = [];
     let temporaryObject = { groupName: '', rows: [] };
+    const length = $(table).children().length;
 
     $(table)
       .children()
       .each((index, row) => {
+        if (index + 1 == length) {
+          rowDatas.push(temporaryObject);
+          $(row)
+            .children()
+            .each((_, tr) => {
+              const rowdata = {};
+              $(tr)
+                .children()
+                .each((index, td) => {
+                  rowdata[titles[index]] = $(td).text().trim();
+                });
+              rowDatas.push(rowdata);
+            });
+
+          return;
+        }
+
         if ($(row).is('thead')) {
           if (index != 0) {
             rowDatas.push(temporaryObject);
@@ -78,6 +96,7 @@ class StandardTransactionController extends StandardController {
           }
 
           temporaryObject.groupName = $(row).find('tr').first().text().trim();
+
           return;
         }
 
@@ -93,7 +112,7 @@ class StandardTransactionController extends StandardController {
             temporaryObject.rows.push(rowdata);
           });
       });
-    rowDatas.push(temporaryObject);
+
     return { titles, tables: rowDatas };
   }
 

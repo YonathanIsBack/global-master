@@ -197,6 +197,7 @@ const Endpoint = {
   PURCHASE_QUOTE: '/purchaseQuote',
   PURCHASE_ORDER: '/purchaseOrder',
   PURCHASE_RECEIVE: '/purchaseReceive',
+  PURCHASE_RECEIVE_INVOICE: '/purchaseReceiveInvoice',
   PURCHASE_INVOICE: '/purchaseInvoice',
   PURCHASE_INVOICE_DIRECT: '/purchaseInvoiceDirect',
   PURCHASE_RETURN: '/purchaseReturn',
