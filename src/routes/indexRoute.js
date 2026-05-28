@@ -188,6 +188,7 @@ import whitelistMiddleware from '../middleware/whitelistMiddleware.js';
 import monitorApiRoute from './monitorApiRoute.js';
 import importDataRoute from './importDataRoute.js';
 import fetchReportRoute from './fetchReportRoute.js';
+import RouteUtil from '../util/RouteUtil.js';
 
 const createMasterRoute = (app) => {
   const router = Router();
@@ -345,6 +346,15 @@ const createPurchaseLocalRoute = (app) => {
   router.use(Endpoint.PURCHASE + Endpoint.LOCAL + Endpoint.PURCHASE_RETURN, purchaseReturnRoute(controllers));
   router.use(Endpoint.PURCHASE + Endpoint.LOCAL + Endpoint.PURCHASE_ADVANCE_PAYMENT, purchaseAdvancePaymentRoute(controllers));
   router.use(Endpoint.PURCHASE + Endpoint.LOCAL + Endpoint.PURCHASE_PAYMENT, purchasePaymentRoute(controllers));
+
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_QUOTE, RouteUtil.createReportRoute(controllers.purchaseQuoteController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_ORDER, RouteUtil.createReportRoute(controllers.purchaseOrderController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_RECEIVE, RouteUtil.createReportRoute(controllers.purchaseReceiveController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_INVOICE, RouteUtil.createReportRoute(controllers.purchaseInvoiceController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_INVOICE_DIRECT, RouteUtil.createReportRoute(controllers.purchaseInvoiceController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_RETURN, RouteUtil.createReportRoute(controllers.purchaseReturnController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_ADVANCE_PAYMENT, RouteUtil.createReportRoute(controllers.purchaseAdvancePaymentController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_PAYMENT, RouteUtil.createReportRoute(controllers.purchasePaymentController));
 
   return router;
 };

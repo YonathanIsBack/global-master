@@ -28,6 +28,15 @@ class RouteUtil {
 
     return router;
   }
+
+  static createReportRoute(controller) {
+    const router = Router();
+
+    router.post(Endpoint.GET_REPORT_JS, controller.getReport);
+    router.post(Endpoint.GET_REPORT, controller.getReport);
+
+    return router;
+  }
 }
 
 export default RouteUtil;

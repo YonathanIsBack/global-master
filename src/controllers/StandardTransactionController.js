@@ -38,8 +38,9 @@ class StandardTransactionController extends StandardController {
 
     await this.#loginCompany();
     const reportParams = this.#buildReportFormParam(body);
+    console.log(`${Constant.COMPANY_BASE_URL}${request.originalUrl.replace('/', '')}`);
 
-    return await fetch(`${Constant.COMPANY_BASE_URL}${this.getReportEndpoint}`, {
+    return await fetch(`${Constant.COMPANY_BASE_URL}${request.originalUrl.replace('/', '')}`, {
       method: 'POST',
       body: reportParams,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', Cookie: this.#companyCookie }
