@@ -9,7 +9,8 @@ import LogEvent from '../constants/LogEvent.js';
 
 class StandardTransactionController extends StandardController {
   #companyCookie;
-  getReportEndpoint = '';
+  notGroupedSelection = 0;
+
   constructor(service) {
     super(service);
     this.changeStatus = this.changeStatus.bind(this);
@@ -49,7 +50,7 @@ class StandardTransactionController extends StandardController {
       .then((data) => {
         const $ = cheerio.load(data.html);
 
-        if (body.selGroupBy != 3) {
+        if (this.#isReportGrouped(body.selGroupBy)) {
           return response.status(StatusCodes.OK).json(this.#handleGroupedReport($));
         }
 
@@ -59,6 +60,10 @@ class StandardTransactionController extends StandardController {
         LoggerUtilSingleton.error(LogEvent.GLOBAL_REPORT, err);
         return response.status(StatusCodes.INTERNAL_SERVER_ERROR);
       });
+  }
+
+  #isReportGrouped(selGroupBy) {
+    return selGroupBy != this.notGroupedSelection;
   }
 
   #handleGroupedReport($) {

@@ -18,6 +18,7 @@ class PurchaseOrderController extends StandardTransactionController {
     this.delete = this.delete.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
     this.changeStatusRequest = this.changeStatusRequest.bind(this);
+    this.notGroupedSelection = 3;
   }
 
   async create(request, response) {

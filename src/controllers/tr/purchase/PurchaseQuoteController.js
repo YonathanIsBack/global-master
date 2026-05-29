@@ -17,7 +17,7 @@ class PurchaseQuoteController extends StandardTransactionController {
     this.delete = this.delete.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
     this.changeStatusRequest = this.changeStatusRequest.bind(this);
-    this.getReportEndpoint = "purchase/report/local/purchaseQuote/get_report_js";
+    this.notGroupedSelection = 3;
   }
 
   async create(request, response) {
