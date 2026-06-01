@@ -51,10 +51,14 @@ class StandardTransactionController extends StandardController {
         const $ = cheerio.load(data.html);
 
         if (this.#isReportGrouped(body.selGroupBy)) {
-          return response.status(StatusCodes.OK).json(this.#handleGroupedReport($));
+          return response
+            .status(StatusCodes.OK)
+            .json(buildResponse(StatusCodes.OK, 'Get Report', this.#handleGroupedReport($)));
         }
 
-        return response.status(StatusCodes.OK).json(this.#handleNonGroupedReport($));
+        return response
+          .status(StatusCodes.OK)
+          .json(buildResponse(StatusCodes.OK, 'Get Report', this.#handleNonGroupedReport($)));
       })
       .catch((err) => {
         LoggerUtilSingleton.error(LogEvent.GLOBAL_REPORT, err);
@@ -107,14 +111,13 @@ class StandardTransactionController extends StandardController {
 
         $(row)
           .children()
-          .each((_, tr) => {
-            const rowdata = {};
-            $(tr)
-              .children()
-              .each((index, td) => {
-                rowdata[titles[index]] = $(td).text().trim();
-              });
-            temporaryObject.rows.push(rowdata);
+          .each((_, tableRow) => {
+            if ($(tableRow).hasClass('subtotal')) {
+              temporaryObject.rows.push(this.#mapSubtotalTableRow($, tableRow, titles));
+              return;
+            }
+
+            temporaryObject.rows.push(this.#mapNormalTableRow($, tableRow, titles));
           });
       });
 
@@ -131,17 +134,44 @@ class StandardTransactionController extends StandardController {
       $(tbody)
         .children()
         .each((_, tr) => {
-          const rowdata = {};
-          $(tr)
-            .children()
-            .each((index, td) => {
-              rowdata[titles[index]] = $(td).text().trim();
-            });
-          tables.push(rowdata);
+          if ($(tr).hasClass('subtotal')) {
+            tables.push(this.#mapSubtotalTableRow($, tr, titles));
+            return;
+          }
+
+          tables.push(this.#mapNormalTableRow($, tr, titles));
         });
     });
 
     return { titles, tables };
+  }
+
+  #mapNormalTableRow($, tableRow, titles) {
+    const rowdata = {};
+
+    $(tableRow)
+      .children()
+      .each((index, td) => {
+        rowdata[titles[index]] = $(td).text().trim();
+      });
+
+    return rowdata;
+  }
+
+  #mapSubtotalTableRow($, tableRow, titles) {
+    const rowdata = { class: 'subtotal' };
+
+    $(tableRow)
+      .children()
+      .each((index, td) => {
+        if ($(td).text().trim() === '') {
+          return;
+        }
+
+        rowdata[titles[index]] = $(td).text().trim();
+      });
+
+    return rowdata;
   }
 
   #getTitlesFromTableHeader($, tableHead, isGrouped) {
