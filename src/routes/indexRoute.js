@@ -353,9 +353,11 @@ const createPurchaseLocalRoute = (app) => {
   router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_RECEIVE_INVOICE, RouteUtil.createReportRoute(controllers.purchaseReceiveController));
   router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_INVOICE, RouteUtil.createReportRoute(controllers.purchaseInvoiceController));
   router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_INVOICE_DIRECT, RouteUtil.createReportRoute(controllers.purchaseInvoiceController));
-  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_RETURN, RouteUtil.createReportRoute(controllers.purchaseReturnController));
   router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_ADVANCE_PAYMENT, RouteUtil.createReportRoute(controllers.purchaseAdvancePaymentController));
   router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_PAYMENT, RouteUtil.createReportRoute(controllers.purchasePaymentController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PURCHASE_RETURN, RouteUtil.createReportRoute(controllers.purchaseReturnController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PAYABLE, RouteUtil.createReportRoute(controllers.purchaseReturnController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.LOCAL + Endpoint.PAYABLE_SUMMARY, RouteUtil.createReportRoute(controllers.purchaseReturnController));
 
   return router;
 };
@@ -394,6 +396,18 @@ const createPurchaseImportRoute = (app) => {
   router.use(Endpoint.PURCHASE + Endpoint.IMPORT + Endpoint.IMPORT_ADVANCE_PAYMENT, importAdvancePaymentRoute(controllers));
   router.use(Endpoint.PURCHASE + Endpoint.IMPORT + Endpoint.IMPORT_CREDIT_NOTE, importCreditNoteRoute(controllers));
   router.use(Endpoint.PURCHASE + Endpoint.IMPORT + Endpoint.IMPORT_PAYMENT, importPaymentRoute(controllers));
+
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_QUOTE, RouteUtil.createReportRoute(controllers.importQuoteController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_ORDER, RouteUtil.createReportRoute(controllers.importOrderController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_RECEIVE, RouteUtil.createReportRoute(controllers.importReceiveController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_RECEIVE_INVOICE, RouteUtil.createReportRoute(controllers.importReceiveController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_INVOICE, RouteUtil.createReportRoute(controllers.importInvoiceController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_INVOICE_DIRECT, RouteUtil.createReportRoute(controllers.importInvoiceController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_ADVANCE_PAYMENT, RouteUtil.createReportRoute(controllers.importAdvancePaymentController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.CREDIT_NOTE, RouteUtil.createReportRoute(controllers.importCreditNoteController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_RETURN, RouteUtil.createReportRoute(controllers.importReturnController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.PURCHASE_PAYMENT, RouteUtil.createReportRoute(controllers.importPaymentController));
+  router.use(Endpoint.PURCHASE + Endpoint.REPORT + Endpoint.IMPORT + Endpoint.CLEARANCE, RouteUtil.createReportRoute(controllers.importClearanceController));
 
   return router;
 };
