@@ -86,13 +86,7 @@ class StandardTransactionController extends StandardController {
           $(row)
             .children()
             .each((_, tr) => {
-              const rowdata = {};
-              $(tr)
-                .children()
-                .each((index, td) => {
-                  rowdata[titles[index]] = $(td).text().trim();
-                });
-              rowDatas.push(rowdata);
+              rowDatas.push(this.#mapGrandTotalTableRow($, tr, titles));
             });
 
           return;
@@ -130,12 +124,20 @@ class StandardTransactionController extends StandardController {
 
     const tables = [];
     const tableBodies = table.find('tbody');
-    tableBodies.each((_, tbody) => {
+    const length = tableBodies.length;
+    console.log(length);
+
+    tableBodies.each((index, tbody) => {
       $(tbody)
         .children()
         .each((_, tr) => {
           if ($(tr).hasClass('subtotal')) {
             tables.push(this.#mapSubtotalTableRow($, tr, titles));
+            return;
+          }
+
+          if (index + 1 == length) {
+            tables.push(this.#mapGrandTotalTableRow($, tr, titles));
             return;
           }
 
@@ -160,6 +162,22 @@ class StandardTransactionController extends StandardController {
 
   #mapSubtotalTableRow($, tableRow, titles) {
     const rowdata = { class: 'subtotal' };
+
+    $(tableRow)
+      .children()
+      .each((index, td) => {
+        if ($(td).text().trim() === '') {
+          return;
+        }
+
+        rowdata[titles[index]] = $(td).text().trim();
+      });
+
+    return rowdata;
+  }
+
+  #mapGrandTotalTableRow($, tableRow, titles) {
+    const rowdata = { class: 'grandtotal' };
 
     $(tableRow)
       .children()
