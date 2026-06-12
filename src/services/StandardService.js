@@ -118,12 +118,12 @@ class StandardService {
         transaction
       });
       const toModel = modelDto.toModel();
-      if (modelData === undefined || modelData === null) {
-        throw new DataNotFoundException(this.model.name);
-      }
+      // if (modelData === undefined || modelData === null) {
+      //   throw new DataNotFoundException(this.model.name);
+      // }
 
-      modelData.delete();
-      const updatedData = await this.update(
+      // modelData.delete();
+      const updatedData = await this.model.upsert(
         {
           ...modelDto.toModel(),
           cretime: toModel.cretime,
@@ -131,7 +131,7 @@ class StandardService {
           modtime: toModel.modtime,
           modby: toModel.modby
         },
-        transaction
+        { transaction }
       );
 
       return { data: updatedData.dataValues };
