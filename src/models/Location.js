@@ -9,7 +9,6 @@ Location.init(
   StandardModel.buildPropertyWithOptions(
     {
       ...StandardModel.buildPrimaryKey('locationId', DataTypes.BIGINT),
-      companyId: DataTypes.INTEGER,
       locationCode: DataTypes.STRING(5),
       locationName: DataTypes.STRING(25)
     },
