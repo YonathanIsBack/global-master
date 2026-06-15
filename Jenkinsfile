@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
         // stage('Run Tests') {
@@ -26,7 +26,7 @@ pipeline {
         // }
         stage('Deploy') {
             steps {
-                sh 'pm2 restart all || pm2 start server.js --name my-express-app'
+                bat 'pm2 restart all || pm2 start server.js --name my-express-app'
             }
         }
     }
