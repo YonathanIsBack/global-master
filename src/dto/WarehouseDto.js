@@ -62,7 +62,6 @@ class WarehouseDto extends StandardDto {
     return {
       warehouseId: this.#warehouseId,
       companyParentId: this.#companyParentId,
-      companyId: this.#companyId,
       customerId: this.#customerId,
       warehouseCode: this.#warehouseCode,
       warehouseLevelId: this.#warehouseLevelId,
