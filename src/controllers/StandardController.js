@@ -23,10 +23,10 @@ class StandardController {
 
   async insertTransaction(request, response, dto) {
     const { data, isUpdated, details } = await this.service.insertTransaction(dto);
-    const statusCode = isUpdated ? StatusCodes.OK : StatusCodes.CREATED;
+    const res = [{ status: 200 }];
     const message = isUpdated ? Constant.UPDATED : Constant.CREATED;
 
-    return response.status(statusCode).json(buildResponse(statusCode, message, { ...data, details }));
+    return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, message, null, res));
   }
 
   async delete(request, response, dto) {
