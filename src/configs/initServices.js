@@ -338,6 +338,15 @@ import FixedAssetGroupService from '../services/ms/FixedAssetGroupService.js';
 import FixedAssetCategoryService from '../services/ms/FixedAssetCategoryService.js';
 import BuyingPriceListService from '../services/tr/buying-price/BuyingPriceListService.js';
 import TrSalesTargetService from '../services/tr/sales-target/TrSalesTargetService.js';
+import CoretaxCategoryService from '../services/ms/CoretaxCategoryService.js';
+import CoretaxCountryService from '../services/ms/CoretaxCountryService.js';
+import CoretaxFacilityService from '../services/ms/CoretaxFacilityService.js';
+import CoretaxInfoService from '../services/ms/CoretaxInfoService.js';
+import CoretaxJenisPembeliService from '../services/ms/CoretaxJenisPembeliService.js';
+import CoretaxTaxService from '../services/ms/CoretaxTaxService.js';
+import CoretaxTransactionCodeService from '../services/ms/CoretaxTransactionCodeService.js';
+import CoretaxTypeService from '../services/ms/CoretaxTypeService.js';
+import CoretaxUomService from '../services/ms/CoretaxUomService.js';
 
 const initServices = () => {
   return {
@@ -578,15 +587,15 @@ const initServices = () => {
     arService: new StandardService(Ar),
     arTrService: new StandardService(ArTr),
     userCustomerLimitService: new StandardService(UserCustomerLimit),
-    coretaxCategoryService: new StandardService(CoretaxCategory),
-    coretaxCountryService: new StandardService(CoretaxCountry),
-    coretaxFacilityService: new StandardService(CoretaxFacility),
-    coretaxInfoService: new StandardService(CoretaxInfo),
-    coretaxJenisPembeliService: new StandardService(CoretaxJenisPembeli),
-    coretaxTaxService: new StandardService(CoretaxTax),
-    coretaxTransactionCodeService: new StandardService(CoretaxTransactionCode),
-    coretaxTypeService: new StandardService(CoretaxType),
-    coretaxUomService: new StandardService(CoretaxUom),
+    coretaxCategoryService: new CoretaxCategoryService(CoretaxCategory),
+    coretaxCountryService: new CoretaxCountryService(CoretaxCountry),
+    coretaxFacilityService: new CoretaxFacilityService(CoretaxFacility),
+    coretaxInfoService: new CoretaxInfoService(CoretaxInfo),
+    coretaxJenisPembeliService: new CoretaxJenisPembeliService(CoretaxJenisPembeli),
+    coretaxTaxService: new CoretaxTaxService(CoretaxTax),
+    coretaxTransactionCodeService: new CoretaxTransactionCodeService(CoretaxTransactionCode),
+    coretaxTypeService: new CoretaxTypeService(CoretaxType),
+    coretaxUomService: new CoretaxUomService(CoretaxUom),
     offshorePurchaseOrderService: new StandardTransactionService(OffshorePurchaseOrder),
     offshorePurchaseReceiveService: new StandardTransactionService(OffshorePurchaseReceive),
     offshorePurchaseInvoiceService: new StandardTransactionService(OffshorePurchaseInvoice),
