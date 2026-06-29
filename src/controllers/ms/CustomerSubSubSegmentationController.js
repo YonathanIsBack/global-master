@@ -5,7 +5,7 @@ import buildResponse from '../../util/buildResponse.js';
 import StandardController from '../StandardController.js';
 import ObjectUtil from '../../util/ObjectUtil.js';
 
-class CustomerSubSegmentationController extends StandardController {
+class CustomerSubSubSegmentationController extends StandardController {
   constructor(customerService) {
     super(customerService);
     this.create = this.create.bind(this);
@@ -37,7 +37,7 @@ class CustomerSubSegmentationController extends StandardController {
 
   async count(request, response) {
     const totalRows = await this.service.count({
-      whereClause: { parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 1 } }
+      whereClause: { parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 2 } }
     });
 
     return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', totalRows));
@@ -47,13 +47,13 @@ class CustomerSubSegmentationController extends StandardController {
     const requestBody = request.body;
     const searchClause = this.service.buildSearchClause(this.service.columnSearch, requestBody.search.value);
     const data = await this.service.getAll({
-      whereClause: { ...searchClause, parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 1 } },
+      whereClause: { ...searchClause, parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 2 } },
       limit: requestBody.length,
       offset: requestBody.start,
       orderIndex: requestBody.order[0].column,
       orderDirection: requestBody.order[0].dir
     });
-    const totalRows = await this.service.count({ whereClause: { ...searchClause, parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 1 } } });
+    const totalRows = await this.service.count({ whereClause: { ...searchClause, parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 2 } } });
 
     const payload = {
       result: data.map((currency) => ObjectUtil.toSnakeCase(currency)),
@@ -71,7 +71,7 @@ class CustomerSubSegmentationController extends StandardController {
     };
 
     const datas = await this.service.getAll({
-      whereClause: { ...whereClause, parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 1 } },
+      whereClause: { ...whereClause, parentId: { [Op.gt]: 0 }, levelSegmentation: { [Op.eq]: 2 } },
       limit: requestBody.where_in.length
     });
 
@@ -83,4 +83,4 @@ class CustomerSubSegmentationController extends StandardController {
     return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', payload));
   }
 }
-export default CustomerSubSegmentationController;
+export default CustomerSubSubSegmentationController;

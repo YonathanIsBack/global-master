@@ -122,6 +122,7 @@ import MemoJurnalController from '../controllers/gl/MemoJurnalController.js';
 import PaymentMemoController from '../controllers/gl/PaymentMemoController.js';
 import { CoretaxCategoryController, CoretaxCountryController, CoretaxFacilityController, CoretaxInfoController, CoretaxJenisPembeliController, CoretaxTaxController, CoretaxTransactionCodeController, CoretaxTypeController, CoretaxUomController } from '../controllers/ms/CoretaxController.js';
 import CustomerSubSegmentationController from '../controllers/ms/CustomerSubSegmentationController.js';
+import CustomerSubSubSegmentationController from '../controllers/ms/CustomerSubSubSegmentationController.js';
 import { StCoaController, StCoaDtControler } from '../controllers/st/StCoaController.js';
 import KasbonController from '../controllers/tr/KasbonController.js';
 import {
@@ -246,6 +247,7 @@ const initControllers = (services) => {
     customerSalesController: new CustomerSalesController(services.customerSalesService),
     customerSegmentationController: new CustomerSegmentationController(services.customerSegmentationService),
     customerSubSegmentationController: new CustomerSubSegmentationController(services.customerSegmentationService),
+    customerSubSubSegmentationController: new CustomerSubSubSegmentationController(services.customerSegmentationService),
     customerTaxController: new CustomerTaxController(services.customerTaxService),
     customerTypeController: new CustomerTypeController(services.customerTypeService),
     departmentController: new DepartmentController(services.departmentService),

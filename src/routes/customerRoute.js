@@ -61,6 +61,16 @@ const customerSubSegmentationRoute = (controllers) => {
 
   return router;
 };
+const customerSubSubSegmentationRoute = (controllers) => {
+  const { customerSubSubSegmentationController } = controllers;
+  const router = RouteUtil.createStandardRoute(customerSubSubSegmentationController);
+  router.post('/count_all', customerSubSubSegmentationController.count);
+  router.post('/get_all_data_customer_sub_segmentation_ajax', customerSubSubSegmentationController.getAll);
+  router.post('/get_all_data_api', customerSubSubSegmentationController.getAllDataAPI);
+  router.post('/get_data_api', customerSubSubSegmentationController.getAllDataAPI);
+
+  return router;
+};
 const customerTaxRoute = (controllers) => RouteUtil.createStandardRoute(controllers.customerTaxController);
 const customerTypeRoute = (controllers) => {
   const { customerTypeController } = controllers;
@@ -87,6 +97,7 @@ export {
   customerSalesRoute,
   customerSegmentationRoute,
   customerSubSegmentationRoute,
+  customerSubSubSegmentationRoute,
   customerTaxRoute,
   customerTypeRoute
 };

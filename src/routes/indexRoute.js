@@ -44,6 +44,7 @@ import {
   customerSalesRoute,
   customerSegmentationRoute,
   customerSubSegmentationRoute,
+  customerSubSubSegmentationRoute,
   customerTaxRoute,
   customerTypeRoute
 } from './customerRoute.js';
@@ -603,7 +604,7 @@ const route = (app) => {
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_GROUP, customerGroupRoute(controllers));
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SEGMENTATION, customerSegmentationRoute(controllers));
   router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SUB_SEGMENTATION, customerSubSegmentationRoute(controllers));
-  router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SUBSUBSEGMENTATION, customerSegmentationRoute(controllers));
+  router.use(Endpoint.SALES + Endpoint.MASTER + Endpoint.CUSTOMER_SUBSUBSEGMENTATION, customerSubSubSegmentationRoute(controllers));
 
   router.use(createInventoryTransactionRoute(app));
   router.use(createSalesLocalRoute(app));
