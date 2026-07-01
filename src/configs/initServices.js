@@ -347,6 +347,7 @@ import CoretaxTaxService from '../services/ms/CoretaxTaxService.js';
 import CoretaxTransactionCodeService from '../services/ms/CoretaxTransactionCodeService.js';
 import CoretaxTypeService from '../services/ms/CoretaxTypeService.js';
 import CoretaxUomService from '../services/ms/CoretaxUomService.js';
+import PrincipalService from '../services/ms/PrincipalService.js';
 
 const initServices = () => {
   return {
@@ -423,7 +424,7 @@ const initServices = () => {
     periodeLogService: new StandardService(PeriodeLog),
     periodeService: new StandardService(Periode),
     preferenceService: new StandardService(Preference),
-    principalService: new StandardService(Principal),
+    principalService: new PrincipalService(Principal),
     provinceService: new ProvinceService(Province),
     districtService: new StandardService(District),
     subdistrictService: new StandardService(SubDistrict),
