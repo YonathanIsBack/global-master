@@ -52,6 +52,7 @@ const Endpoint = {
   TRANS_CODE_GROUP: '/transCodeGroup',
   TRANSACTION_CODE: '/transactioncode',
   PRINCIPAL: '/principal',
+  GOLONGAN: '/golongan',
   PREFERENCE: '/preference',
   PROVINCE: '/province',
   SHIPPING: '/shipping',

@@ -190,6 +190,7 @@ import monitorApiRoute from './monitorApiRoute.js';
 import importDataRoute from './importDataRoute.js';
 import fetchReportRoute from './fetchReportRoute.js';
 import RouteUtil from '../util/RouteUtil.js';
+import golonganRoute from './golonganRoute.js';
 
 const createMasterRoute = (app) => {
   const router = Router();
@@ -586,6 +587,7 @@ const route = (app) => {
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.ITEM_UOM, itemUomRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.LABEL, labelRoute(controllers));
   router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.PRINCIPAL, principalRoute(controllers));
+  router.use(Endpoint.INVENTORY + Endpoint.MASTER + Endpoint.GOLONGAN, golonganRoute(controllers));
   //PURCHASE/MASTER
   router.use(Endpoint.MASTER + Endpoint.MASTER + Endpoint.SUPPLIER, supplierRoute(controllers));
   router.use(Endpoint.MASTER + Endpoint.SUPPLIER + Endpoint.SUPPLIER, supplierRoute(controllers));

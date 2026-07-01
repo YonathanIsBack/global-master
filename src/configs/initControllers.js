@@ -58,6 +58,7 @@ import KasbonPotonganController from '../controllers/KasbonPotonganController.js
 import { LabelController, LabelSettinganPrintController } from '../controllers/LabelController.js';
 import LocationController from '../controllers/LocationController.js';
 import MonitorApiController from '../controllers/MonitorApiController.js';
+import MsCk6GolonganController from '../controllers/MsCk6GolonganController.js';
 import { NotificationController, NotificationDetailController } from '../controllers/NotificationController.js';
 import { PageMenuController, PageMenuTerbukaController } from '../controllers/PageMenuController.js';
 import PaymentTermController from '../controllers/PaymentTermController.js';
@@ -436,6 +437,7 @@ const initControllers = (services) => {
     offshoreSalesPaymentController: new OffshoreSalesPaymentController(services.offshoreSalesPaymentService),
     monitorApiController: new MonitorApiController(),
     importDataController: new ImportDataController(services.importDataService),
+    msCk6GolonganController: new MsCk6GolonganController(services.msCk6GolonganService),
     globalReportController: new GlobalReportController()
   };
 };

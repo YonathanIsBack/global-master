@@ -348,6 +348,8 @@ import CoretaxTransactionCodeService from '../services/ms/CoretaxTransactionCode
 import CoretaxTypeService from '../services/ms/CoretaxTypeService.js';
 import CoretaxUomService from '../services/ms/CoretaxUomService.js';
 import PrincipalService from '../services/ms/PrincipalService.js';
+import MsCk6GolonganService from '../services/ms/MsCk6GolonganService.js';
+import MsCk6Golongan from '../models/ms/MsCk6Golongan.js';
 
 const initServices = () => {
   return {
@@ -675,6 +677,7 @@ const initServices = () => {
     ixCustomerBalanceExportService: new StandardService(IxCustomerBalanceExport),
     transactionTraceService: new StandardService(TransactionTrace),
     ixFakturService: new StandardService(IxFaktur),
+    msCk6GolonganService: new MsCk6GolonganService(MsCk6Golongan),
     importDataService: new ImportDataService()
   };
 };
