@@ -350,6 +350,9 @@ import CoretaxUomService from '../services/ms/CoretaxUomService.js';
 import PrincipalService from '../services/ms/PrincipalService.js';
 import MsCk6GolonganService from '../services/ms/MsCk6GolonganService.js';
 import MsCk6Golongan from '../models/ms/MsCk6Golongan.js';
+import CityService from '../services/CityService.js';
+import DistrictService from '../services/DistrictService.js';
+import SubdistrictService from '../services/SubdistrictService.js';
 
 const initServices = () => {
   return {
@@ -368,7 +371,7 @@ const initServices = () => {
     buyingPriceListImportDetailService: new StandardService(BuyingPriceListImportDetail),
     buyingPriceListService: new BuyingPriceListService(BuyingPriceList),
     buyingPriceListDetailService: new StandardService(BuyingPriceListDetail),
-    cityService: new StandardService(City),
+    cityService: new CityService(City),
     coaService: new CoaService(Coa),
     coaBankService: new StandardService(CoaBank),
     coaGroupService: new CoaGroupService(Coa),
@@ -428,8 +431,8 @@ const initServices = () => {
     preferenceService: new StandardService(Preference),
     principalService: new PrincipalService(Principal),
     provinceService: new ProvinceService(Province),
-    districtService: new StandardService(District),
-    subdistrictService: new StandardService(SubDistrict),
+    districtService: new DistrictService(District),
+    subdistrictService: new SubdistrictService(SubDistrict),
     salesmanService: new SalesmanService(Salesman),
     salesmanCommissionService: new StandardService(SalesmanCommision),
     salesmanTargetService: new StandardService(SalesmanTarget),

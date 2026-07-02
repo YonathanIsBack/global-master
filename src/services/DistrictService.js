@@ -1,22 +1,26 @@
 import City from '../models/City.js';
 import { Country } from '../models/Country.js';
+import District from '../models/District.js';
 import Province from '../models/Province.js';
 import ObjectUtil from '../util/ObjectUtil.js';
-import SequelizeUtil from '../util/SequelizeUtil.js';
 import StandardService from './StandardService.js';
 
-class CityService extends StandardService {
-  columnOrder = ['', 'city_name', '$Province.province_name$', '$Country.country_name$', 'isactive'];
-  columnSearch = ['city_name', '$Province.province_name$', '$Country.country_name$'];
+class DistrictService extends StandardService {
+  columnOrder = ['', 'districtName', '$City.city_name$', '$Province.province_name$', '$Country.country_name$', 'isactive'];
+  columnSearch = ['districtName', '$City.city_name$', '$Province.province_name$', '$Country.country_name$'];
 
   constructor() {
-    super(City);
+    super(District);
   }
 
   async count({ whereClause } = {}) {
     return await this.model.count({
       where: whereClause ?? null,
       include: [
+        {
+          model: City,
+          required: false
+        },
         {
           model: Country,
           required: false
@@ -41,6 +45,10 @@ class CityService extends StandardService {
       order: this.buildOrderClause(orderIndex, orderDirection),
       include: [
         {
+          model: City,
+          required: false
+        },
+        {
           model: Country,
           required: false
         },
@@ -52,15 +60,17 @@ class CityService extends StandardService {
     });
 
     return results.map((result) => {
-      const city = result.get({ plain: true });
-      const country = city.Country;
-      const province = city.Province;
+      const district = result.get({ plain: true });
+      const city = district.City;
+      const country = district.Country;
+      const province = district.Province;
 
-      delete city.Country;
-      delete city.Province;
+      delete district.Country;
+      delete district.Province;
 
       return {
-        ...city,
+        ...district,
+        cityName: city?.cityName || '',
         countryName: country?.countryName || '',
         provinceName: province?.provinceName || ''
       };
@@ -79,6 +89,10 @@ class CityService extends StandardService {
       nest: true,
       include: [
         {
+          model: City,
+          required: false
+        },
+        {
           model: Country,
           required: false
         },
@@ -89,11 +103,13 @@ class CityService extends StandardService {
       ]
     });
 
-    const city = results[0];
-    const country = city.Country;
-    const province = city.Province;
+    const district = results[0];
+    const city = district.City;
+    const country = district.Country;
+    const province = district.Province;
 
     return {
+      ...ObjectUtil.toSnakeCase(district),
       ...ObjectUtil.toSnakeCase(city),
       ...ObjectUtil.toSnakeCase(country),
       ...ObjectUtil.toSnakeCase(province)
@@ -101,4 +117,4 @@ class CityService extends StandardService {
   }
 }
 
-export default CityService;
+export default DistrictService;

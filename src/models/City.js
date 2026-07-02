@@ -1,6 +1,8 @@
 import { DataTypes } from 'sequelize';
 import DatabaseConnectionSingleton from '../configs/DatabaseConnection.js';
 import StandardModel from './StandardModel.js';
+import { Country } from './Country.js';
+import Province from './Province.js';
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
 class City extends StandardModel {}
@@ -21,5 +23,8 @@ City.init(
   ),
   StandardModel.buildStandardModelInformation('ms_city', 'City', sequelize)
 );
+
+City.hasOne(Country, { foreignKey: "country_id" });
+City.hasOne(Province, { foreignKey: "province_id" });
 
 export default City;
