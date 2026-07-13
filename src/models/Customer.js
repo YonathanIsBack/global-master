@@ -26,7 +26,7 @@ Customer.init(
       ...StandardModel.buildPrimaryKey('customerId', DataTypes.BIGINT),
       coretaxTransactionCodeId: DataTypes.BIGINT,
       companyParentId: DataTypes.INTEGER,
-      companyId: DataTypes.INTEGER,
+      // companyId: DataTypes.INTEGER,
       type: DataTypes.STRING(200),
       customerGroupId: DataTypes.INTEGER,
       coretaxJenisPembeliId: DataTypes.BIGINT,
