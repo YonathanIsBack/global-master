@@ -1,11 +1,11 @@
-import { DataTypes } from "sequelize";
-import DatabaseConnectionSingleton from "../../configs/DatabaseConnection.js";
-import StandardModel from "../StandardModel.js";
+import { DataTypes } from 'sequelize';
+import DatabaseConnectionSingleton from '../../configs/DatabaseConnection.js';
+import StandardModel from '../StandardModel.js';
 
 const sequelize = DatabaseConnectionSingleton.getConnection();
 
-class IxCustomer extends StandardModel { }
-class IxCustomerDt extends StandardModel { }
+class IxCustomer extends StandardModel {}
+class IxCustomerDt extends StandardModel {}
 
 IxCustomer.init(
   StandardModel.buildPropertyWithOptions(
@@ -15,7 +15,7 @@ IxCustomer.init(
       totalData: DataTypes.INTEGER,
       totalInsert: DataTypes.INTEGER,
       totalUpdate: DataTypes.INTEGER,
-      status: DataTypes.TINYINT,
+      status: DataTypes.TINYINT
     },
     { withCreate: true }
   ),
@@ -33,9 +33,27 @@ IxCustomerDt.init(
       customerName: DataTypes.STRING(100),
       outletName: DataTypes.STRING(100),
       nickname: DataTypes.STRING(100),
-      coretaxTransactionCodeId: DataTypes.BIGINT,
+      coretaxTransactionCodeId: {
+        type: DataTypes.BIGINT,
+        set(value) {
+          if (typeof value === 'string' && isNaN(Number(value))) {
+            this.setDataValue('coretaxTransactionCodeId', undefined);
+          } else {
+            this.setDataValue('coretaxTransactionCodeId', value);
+          }
+        }
+      },
       coretaxTransactionCode: DataTypes.STRING(150),
-      coretaxJenisPembeliId: DataTypes.BIGINT,
+      coretaxJenisPembeliId: {
+        type: DataTypes.BIGINT,
+        set(value) {
+          if (typeof value === 'string' && isNaN(Number(value))) {
+            this.setDataValue('coretaxJenisPembeliId', undefined);
+          } else {
+            this.setDataValue('coretaxJenisPembeliId', value);
+          }
+        }
+      },
       coretaxJenisPembeliName: DataTypes.STRING(150),
       class: DataTypes.STRING(50),
       relation: DataTypes.STRING(100),
@@ -135,15 +153,11 @@ IxCustomerDt.init(
       paymentTerm: DataTypes.STRING(100),
       creditLimit: DataTypes.STRING(100),
       consignment: DataTypes.STRING(20),
-      type: DataTypes.TINYINT,
+      type: DataTypes.TINYINT
     },
     { withIsactive: true, withIsdel: true }
   ),
   StandardModel.buildStandardModelInformation('ix_customer_dt', 'IxCustomerDt', sequelize)
 );
 
-export {
-  IxCustomer,
-  IxCustomerDt
-};
-
+export { IxCustomer, IxCustomerDt };
