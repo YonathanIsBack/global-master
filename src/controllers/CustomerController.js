@@ -73,11 +73,11 @@ class CustomerController extends StandardController {
         model: Province,
         required: false
       },
-      { model: CustomerContact, required: false },
-      { model: CustomerBilling, required: false },
-      { model: CustomerTax, required: false },
-      { model: CustomerDelivery, required: false },
-      { model: CustomerSales, required: false }
+      // { model: CustomerContact, required: false },
+      // { model: CustomerBilling, required: false },
+      // { model: CustomerTax, required: false },
+      // { model: CustomerDelivery, required: false },
+      // { model: CustomerSales, required: false }
     ];
     const data = await this.service.getAll({
       whereClause: { ...searchClause, customerClass },
