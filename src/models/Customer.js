@@ -69,7 +69,16 @@ Customer.init(
       customerDistrictId2: { type: DataTypes.INTEGER, field: 'customer_district_id_2' },
       customerSubdistrictId2: { type: DataTypes.INTEGER, field: 'customer_subdistrict_id_2' },
       customerPostalCode2: { type: DataTypes.STRING(50), field: 'customer_postal_code_2' },
-      customerCitizenshipCountryId: DataTypes.BIGINT,
+      customerCitizenshipCountryId: {
+        type: DataTypes.BIGINT,
+        set(value) {
+          if (typeof value === 'string' && isNaN(Number(value))) {
+            this.setDataValue('customerCitizenshipCountryId', undefined);
+          } else {
+            this.setDataValue('customerCitizenshipCountryId', value);
+          }
+        }
+      },
       customerOwner: DataTypes.STRING(50),
       note: DataTypes.TEXT,
       status: DataTypes.TINYINT,
