@@ -55,7 +55,7 @@ class CustomerController extends StandardController {
 
   async count(request, response) {
     const customerClass = request.originalUrl.includes(Endpoint.CUSTOMER_PERSONAL) ? '2' : '1';
-    const totalRows = await this.service.count({ whereClause: { customerClass} });
+    const totalRows = await this.service.count({ whereClause: { customerClass } });
 
     return response.status(StatusCodes.OK).json(buildResponse(StatusCodes.OK, 'Success', totalRows));
   }
@@ -89,7 +89,7 @@ class CustomerController extends StandardController {
       nest: true,
       raw: false
     });
-    const totalRows = await this.service.count({ whereClause: searchClause });
+    const totalRows = await this.service.count({ whereClause: { ...searchClause, customerClass } });
 
     const payload = {
       result: data.map((data) => {
